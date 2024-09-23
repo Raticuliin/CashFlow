@@ -1,4 +1,4 @@
-package com.raticuliin.cashflow.utils;
+package com.raticuliin.cashflow.bank.utils.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

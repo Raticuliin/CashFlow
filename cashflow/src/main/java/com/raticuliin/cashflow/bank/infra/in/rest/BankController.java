@@ -4,7 +4,7 @@ import com.raticuliin.cashflow.bank.app.in.usecase.CreateBankUseCase;
 import com.raticuliin.cashflow.bank.infra.in.rest.data.BankResponse;
 import com.raticuliin.cashflow.bank.infra.in.rest.data.CreateBankRequest;
 import com.raticuliin.cashflow.bank.infra.in.rest.mapper.BankMapper;
-import com.raticuliin.cashflow.utils.ErrorResponse;
+import com.raticuliin.cashflow.bank.utils.data.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
