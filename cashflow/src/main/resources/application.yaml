@@ -2,7 +2,7 @@ spring:
   application:
     name: cashflow
   profiles:
-    active: local
+    active: local-pc
   jpa:
     hibernate:
       ddl-auto: validate

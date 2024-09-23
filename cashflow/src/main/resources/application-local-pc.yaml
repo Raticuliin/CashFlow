@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cash_flow_local_windows
+    username: admin
+    password: admin
