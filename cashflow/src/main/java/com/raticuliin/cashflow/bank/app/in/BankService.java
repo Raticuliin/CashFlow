@@ -1,8 +1,8 @@
 package com.raticuliin.cashflow.bank.app.in;
 
 import com.raticuliin.cashflow.bank.app.in.usecase.*;
+import com.raticuliin.cashflow.bank.app.out.IBankRepository;
 import com.raticuliin.cashflow.bank.domain.Bank;
-import com.raticuliin.cashflow.bank.infra.out.postgres.repository.BankRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ public class BankService implements
         DeleteBankUseCase {
 
     @Autowired
-    BankRepository bankRepository;
+    private IBankRepository bankRepository;
 
     @Override
     public Bank createBank(Bank bank) throws Exception {

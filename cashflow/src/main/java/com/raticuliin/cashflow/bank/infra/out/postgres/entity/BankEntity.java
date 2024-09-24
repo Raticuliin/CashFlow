@@ -1,10 +1,14 @@
 package com.raticuliin.cashflow.bank.infra.out.postgres.entity;
 
+import com.raticuliin.cashflow.account.infra.out.postgres.entity.AccountEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -20,5 +24,9 @@ public class BankEntity {
 
     @Column(name = "bank_name")
     private String name;
+
+    @OneToMany(mappedBy = "bankEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AccountEntity> accounts = new ArrayList<>();
+
 
 }
