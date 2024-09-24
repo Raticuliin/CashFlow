@@ -2,7 +2,6 @@ package com.raticuliin.cashflow.account.infra.out.postgres.mapper;
 
 import com.raticuliin.cashflow.account.domain.Account;
 import com.raticuliin.cashflow.account.infra.out.postgres.entity.AccountEntity;
-import com.raticuliin.cashflow.bank.infra.in.rest.mapper.BankMapper;
 import com.raticuliin.cashflow.bank.infra.out.postgres.mapper.BankEntityMapper;
 
 public class AccountEntityMapper {
