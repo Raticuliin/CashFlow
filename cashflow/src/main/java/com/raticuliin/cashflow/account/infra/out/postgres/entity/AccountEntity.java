@@ -38,7 +38,7 @@ public class AccountEntity {
     private AccountType accountType;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bank")
+    @JoinColumn(name = "bank_id")
     private BankEntity bankEntity;
 
 
