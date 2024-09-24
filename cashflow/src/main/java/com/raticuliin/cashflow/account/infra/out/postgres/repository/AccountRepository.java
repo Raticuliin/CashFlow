@@ -44,4 +44,12 @@ public class AccountRepository implements IAccountRepository {
         return jpaAccountRepository.findById(id)
                 .map(AccountEntityMapper::entityToDomain);
     }
+
+    @Override
+    public List<Account> getAccountByNameContaining(String name) {
+        return jpaAccountRepository.findByNameContainingIgnoreCase(name)
+                .stream()
+                .map(AccountEntityMapper::entityToDomain)
+                .toList();
+    }
 }

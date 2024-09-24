@@ -55,7 +55,7 @@ public class BankController {
 
     }
 
-    @GetMapping("/")
+    @GetMapping("/all")
     public ResponseEntity<?> getAllBanks() {
 
         List<BankResponse> bankResponseList;
@@ -103,7 +103,7 @@ public class BankController {
     }
 
     @GetMapping("")
-    public ResponseEntity<?> getBankByNameContaining(@RequestParam("name") String name) {
+    public ResponseEntity<?> getBanksByNameContaining(@RequestParam("name") String name) {
 
         List<BankResponse> bankResponseList;
 

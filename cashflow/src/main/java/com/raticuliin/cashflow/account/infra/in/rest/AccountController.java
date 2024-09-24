@@ -2,6 +2,7 @@ package com.raticuliin.cashflow.account.infra.in.rest;
 
 import com.raticuliin.cashflow.account.app.in.usecase.CreateAccountUseCase;
 import com.raticuliin.cashflow.account.app.in.usecase.GetAccountByIdUseCase;
+import com.raticuliin.cashflow.account.app.in.usecase.GetAccountsByNameContaining;
 import com.raticuliin.cashflow.account.app.in.usecase.GetAllAccountsUseCase;
 import com.raticuliin.cashflow.account.infra.in.rest.data.AccountRequest;
 import com.raticuliin.cashflow.account.infra.in.rest.data.AccountResponse;
@@ -27,6 +28,9 @@ public class AccountController {
     @Autowired
     private GetAccountByIdUseCase getAccountByIdUseCase;
 
+    @Autowired
+    private GetAccountsByNameContaining getAccountsByNameContaining;
+
     @PostMapping("/create")
     public ResponseEntity<?> createAccount(@RequestBody AccountRequest accountRequest) {
 
@@ -49,7 +53,7 @@ public class AccountController {
 
     }
 
-    @GetMapping("/")
+    @GetMapping("/all")
     public ResponseEntity<?> getAllAccounts() {
 
         List<AccountResponse> accountResponseList;
@@ -88,6 +92,29 @@ public class AccountController {
                     .build();
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(accountResponseList);
+
+    }
+
+    @GetMapping("")
+    public ResponseEntity<?> getAccountsByNameContaining(@RequestParam("name") String name) {
+
+        List<AccountResponse> accountResponseList;
+
+        try {
+            accountResponseList = getAccountsByNameContaining.getAccountsByNameContaining(name)
+                    .stream()
+                    .map(AccountMapper::domainToResponse)
+                    .toList();
+        } catch (Exception e) {
+            ErrorResponse response = ErrorResponse.builder()
+                    .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message(e.getMessage())
+                    .build();
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
 
         return ResponseEntity.ok(accountResponseList);

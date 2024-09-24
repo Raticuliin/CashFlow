@@ -14,4 +14,5 @@ public interface IAccountRepository {
 
     List<Account> getAllAccounts();
     Optional<Account> getAccountById(Long id);
+    List<Account> getAccountByNameContaining(String name);
 }
