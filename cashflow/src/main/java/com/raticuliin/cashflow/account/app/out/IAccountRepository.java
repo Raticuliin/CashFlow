@@ -9,5 +9,5 @@ public interface IAccountRepository {
     Account createAccount(Account account);
 
     List<Account> getAllAccounts();
-
+    Account getAccountById(long id);
 }

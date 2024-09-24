@@ -1,6 +1,7 @@
 package com.raticuliin.cashflow.account.app.in;
 
 import com.raticuliin.cashflow.account.app.in.usecase.CreateAccountUseCase;
+import com.raticuliin.cashflow.account.app.in.usecase.GetAccountByIdUseCase;
 import com.raticuliin.cashflow.account.app.in.usecase.GetAllAccountsUseCase;
 import com.raticuliin.cashflow.account.app.out.IAccountRepository;
 import com.raticuliin.cashflow.account.domain.Account;
@@ -15,7 +16,8 @@ import java.util.List;
 @Service
 public class AccountService implements
         CreateAccountUseCase,
-        GetAllAccountsUseCase {
+        GetAllAccountsUseCase,
+        GetAccountByIdUseCase {
 
     @Autowired
     private IAccountRepository accountRepository;
@@ -39,5 +41,10 @@ public class AccountService implements
 
         return accountRepository.getAllAccounts();
 
+    }
+
+    @Override
+    public Account getAccountById(int id) {
+        return ;
     }
 }
