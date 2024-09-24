@@ -1,6 +1,7 @@
 package com.raticuliin.cashflow.account.infra.in.rest;
 
 import com.raticuliin.cashflow.account.app.in.usecase.CreateAccountUseCase;
+import com.raticuliin.cashflow.account.app.in.usecase.GetAccountByIdUseCase;
 import com.raticuliin.cashflow.account.app.in.usecase.GetAllAccountsUseCase;
 import com.raticuliin.cashflow.account.infra.in.rest.data.AccountRequest;
 import com.raticuliin.cashflow.account.infra.in.rest.data.AccountResponse;
@@ -22,6 +23,9 @@ public class AccountController {
 
     @Autowired
     private GetAllAccountsUseCase getAllAccountsUseCase;
+
+    @Autowired
+    private GetAccountByIdUseCase getAccountByIdUseCase;
 
     @PostMapping("/create")
     public ResponseEntity<?> createAccount(@RequestBody AccountRequest accountRequest) {
@@ -55,6 +59,28 @@ public class AccountController {
                     .stream()
                     .map(AccountMapper::domainToResponse)
                     .toList();
+        } catch (Exception e) {
+            ErrorResponse response = ErrorResponse.builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message(e.getMessage())
+                    .build();
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(accountResponseList);
+
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getAllAccounts(@PathVariable Long id) {
+
+        AccountResponse accountResponseList;
+
+        try {
+            accountResponseList = AccountMapper.domainToResponse(
+                    getAccountByIdUseCase.getAccountById(id)
+            );
         } catch (Exception e) {
             ErrorResponse response = ErrorResponse.builder()
                     .code(HttpStatus.BAD_REQUEST.value())

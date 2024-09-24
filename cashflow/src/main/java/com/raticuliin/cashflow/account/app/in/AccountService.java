@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountService implements
@@ -44,7 +45,14 @@ public class AccountService implements
     }
 
     @Override
-    public Account getAccountById(int id) {
-        return ;
+    public Account getAccountById(Long id) throws Exception {
+
+        Optional<Account> accountOptional = accountRepository.getAccountById(id);
+
+        if (accountOptional.isEmpty()) {
+            throw new Exception(String.format("No account found with ID: %d", id));
+        }
+
+        return accountOptional.get();
     }
 }

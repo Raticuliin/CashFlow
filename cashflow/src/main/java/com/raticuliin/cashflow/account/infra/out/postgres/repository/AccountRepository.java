@@ -8,12 +8,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class AccountRepository implements IAccountRepository {
 
     @Autowired
     JpaAccountRepository jpaAccountRepository;
+
+    @Override
+    public Boolean existsByName(String name) {
+        return jpaAccountRepository.existsByName(name);
+    }
+
+    @Override
+    public Boolean existsById(Long id) {
+        return jpaAccountRepository.existsById(id);
+    }
 
     @Override
     public Account createAccount(Account account) {
@@ -26,5 +37,11 @@ public class AccountRepository implements IAccountRepository {
                 .stream()
                 .map(AccountEntityMapper::entityToDomain)
                 .toList();
+    }
+
+    @Override
+    public Optional<Account> getAccountById(Long id) {
+        return jpaAccountRepository.findById(id)
+                .map(AccountEntityMapper::entityToDomain);
     }
 }

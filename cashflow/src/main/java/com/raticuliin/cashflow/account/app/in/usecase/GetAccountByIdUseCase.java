@@ -4,6 +4,6 @@ import com.raticuliin.cashflow.account.domain.Account;
 
 public interface GetAccountByIdUseCase {
 
-    Account getAccountById(int id);
+    Account getAccountById(Long id) throws Exception;
 
 }
