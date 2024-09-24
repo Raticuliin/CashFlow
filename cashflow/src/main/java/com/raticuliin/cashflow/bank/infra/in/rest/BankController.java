@@ -4,7 +4,7 @@ import com.raticuliin.cashflow.bank.app.in.usecase.*;
 import com.raticuliin.cashflow.bank.infra.in.rest.data.BankResponse;
 import com.raticuliin.cashflow.bank.infra.in.rest.data.BankRequest;
 import com.raticuliin.cashflow.bank.infra.in.rest.mapper.BankMapper;
-import com.raticuliin.cashflow.bank.utils.data.ErrorResponse;
+import com.raticuliin.cashflow.utils.data.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -81,7 +81,7 @@ public class BankController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getBankById(@PathVariable("id") long id) {
+    public ResponseEntity<?> getBankById(@PathVariable("id") Long id) {
 
         BankResponse bankResponse;
 
@@ -128,7 +128,7 @@ public class BankController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateBank(@PathVariable("id") long id, @RequestBody BankRequest updateBankRequest) {
+    public ResponseEntity<?> updateBank(@PathVariable("id") Long id, @RequestBody BankRequest updateBankRequest) {
 
         BankResponse bankResponse;
 
@@ -148,7 +148,7 @@ public class BankController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteBank(@PathVariable("id") long id) {
+    public ResponseEntity<?> deleteBank(@PathVariable("id") Long id) {
 
         BankResponse bankResponse;
 

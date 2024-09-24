@@ -29,7 +29,7 @@ public class BankRepository implements IBankRepository {
     }
 
     @Override
-    public boolean existsById(long id) {
+    public boolean existsById(Long id) {
         return jpaBankRepository.existsById(id);
     }
 
@@ -42,7 +42,7 @@ public class BankRepository implements IBankRepository {
     }
 
     @Override
-    public Optional<Bank> getBankById(long id) {
+    public Optional<Bank> getBankById(Long id) {
         return jpaBankRepository.findById(id)
                 .map(BankEntityMapper::entityToDomain);
     }
@@ -61,7 +61,7 @@ public class BankRepository implements IBankRepository {
     }
 
     @Override
-    public void deleteBank(long id) {
+    public void deleteBank(Long id) {
         jpaBankRepository.deleteById(id);
     }
 

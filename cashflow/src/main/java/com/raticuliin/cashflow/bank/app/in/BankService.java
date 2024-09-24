@@ -37,7 +37,7 @@ public class BankService implements
     }
 
     @Override
-    public Bank getBankById(long id) throws Exception{
+    public Bank getBankById(Long id) throws Exception{
 
         Optional<Bank> bankOptional = bankRepository.getBankById(id);
 
@@ -53,7 +53,7 @@ public class BankService implements
     }
 
     @Override
-    public Bank updateBank(long id, Bank bank) throws Exception {
+    public Bank updateBank(Long id, Bank bank) throws Exception {
 
         if (!bankRepository.existsById(id)) {
             throw new Exception(String.format("No bank found with ID: %d", id));
@@ -69,7 +69,7 @@ public class BankService implements
     }
 
     @Override
-    public Bank deleteBank(long id) throws Exception {
+    public Bank deleteBank(Long id) throws Exception {
 
         Bank bank = getBankById(id);
 

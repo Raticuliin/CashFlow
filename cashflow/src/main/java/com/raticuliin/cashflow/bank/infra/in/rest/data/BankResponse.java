@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BankResponse {
 
-    private long id;
+    private Long id;
     private String name;
 
 }

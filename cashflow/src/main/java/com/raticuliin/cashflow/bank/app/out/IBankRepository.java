@@ -10,14 +10,14 @@ public interface IBankRepository {
     Bank createBank(Bank bank);
 
     List<Bank> getAllBanks();
-    Optional<Bank> getBankById(long id);
+    Optional<Bank> getBankById(Long id);
     List<Bank> getBanksByNameContaining(String name);
 
     Bank updateBank(Bank bank);
 
-    void deleteBank(long id);
+    void deleteBank(Long id);
 
     boolean existsByName(String name);
-    boolean existsById(long id);
+    boolean existsById(Long id);
 
 }
