@@ -2,13 +2,14 @@ package com.raticuliin.cashflow.bank.infra.in.rest.mapper;
 
 import com.raticuliin.cashflow.bank.domain.Bank;
 import com.raticuliin.cashflow.bank.infra.in.rest.data.BankResponse;
-import com.raticuliin.cashflow.bank.infra.in.rest.data.CreateBankRequest;
+import com.raticuliin.cashflow.bank.infra.in.rest.data.BankRequest;
 
 public class BankMapper {
 
-    public static Bank createBankRequestToDomain(CreateBankRequest createBankRequest) {
+    public static Bank bankRequestToDomain(BankRequest createBankRequest) {
 
         return Bank.builder()
+                .id(createBankRequest.getId())
                 .name(createBankRequest.getName())
                 .build();
 

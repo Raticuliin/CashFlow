@@ -1,9 +1,8 @@
 package com.raticuliin.cashflow.bank.infra.in.rest;
 
-import com.raticuliin.cashflow.bank.app.in.BankService;
-import com.raticuliin.cashflow.bank.app.in.usecase.CreateBankUseCase;
+import com.raticuliin.cashflow.bank.app.in.usecase.*;
 import com.raticuliin.cashflow.bank.infra.in.rest.data.BankResponse;
-import com.raticuliin.cashflow.bank.infra.in.rest.data.CreateBankRequest;
+import com.raticuliin.cashflow.bank.infra.in.rest.data.BankRequest;
 import com.raticuliin.cashflow.bank.infra.in.rest.mapper.BankMapper;
 import com.raticuliin.cashflow.bank.utils.data.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +18,26 @@ public class BankController {
 
     @Autowired
     CreateBankUseCase createBankUseCase;
+
     @Autowired
-    private BankService bankService;
+    GetAllBanksUseCase getAllBanksUseCase;
+
+    @Autowired
+    GetBankByIdUseCase getBankByIdUseCase;
+
+    @Autowired
+    GetBankByNameContaining getBankByNameContaining;
+
+    @Autowired
+    UpdateBankUseCase updateBankUseCase;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createBook(@RequestBody CreateBankRequest createBankRequest) {
+    public ResponseEntity<?> createBook(@RequestBody BankRequest createBankRequest) {
 
         BankResponse bankResponse;
 
         try {
-            bankResponse = BankMapper.domainToBankResponse(createBankUseCase.create(BankMapper.createBankRequestToDomain(createBankRequest)));
+            bankResponse = BankMapper.domainToBankResponse(createBankUseCase.createBank(BankMapper.bankRequestToDomain(createBankRequest)));
         } catch (Exception e) {
 
             ErrorResponse response = ErrorResponse.builder()
@@ -49,7 +58,7 @@ public class BankController {
         List<BankResponse> bankResponseList;
 
         try {
-            bankResponseList = bankService.getAllBanks()
+            bankResponseList = getAllBanksUseCase.getAllBanks()
                     .stream()
                     .map(BankMapper::domainToBankResponse)
                     .toList();
@@ -74,7 +83,7 @@ public class BankController {
         BankResponse bankResponse;
 
         try {
-            bankResponse = BankMapper.domainToBankResponse(bankService.getBankById(id));
+            bankResponse = BankMapper.domainToBankResponse(getBankByIdUseCase.getBankById(id));
         } catch (Exception e) {
 
             ErrorResponse response = ErrorResponse.builder()
@@ -96,7 +105,7 @@ public class BankController {
         List<BankResponse> bankResponseList;
 
         try {
-            bankResponseList = bankService.getBankByNameContaining(name)
+            bankResponseList = getBankByNameContaining.getBankByNameContaining(name)
                     .stream()
                     .map(BankMapper::domainToBankResponse)
                     .toList();
@@ -113,6 +122,26 @@ public class BankController {
 
         return ResponseEntity.ok(bankResponseList);
 
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateBank(@RequestBody BankRequest updateBankRequest) {
+
+        BankResponse bankResponse;
+
+        try {
+            bankResponse = BankMapper.domainToBankResponse(updateBankUseCase.updateBank(BankMapper.bankRequestToDomain(updateBankRequest)));
+        } catch (Exception e) {
+
+            ErrorResponse response = ErrorResponse.builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message(e.getMessage())
+                    .build();
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(bankResponse);
     }
 
 }

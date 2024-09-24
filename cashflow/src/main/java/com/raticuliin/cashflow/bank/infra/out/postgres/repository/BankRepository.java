@@ -29,6 +29,11 @@ public class BankRepository implements IBankRepository {
     }
 
     @Override
+    public boolean existsById(long id) {
+        return jpaBankRepository.existsById(id);
+    }
+
+    @Override
     public List<Bank> getAllBanks() {
         return jpaBankRepository.findAll()
                 .stream()
@@ -50,5 +55,9 @@ public class BankRepository implements IBankRepository {
                 .toList();
     }
 
+    @Override
+    public Bank updateBank(Bank bank) {
+        return BankEntityMapper.entityToDomain(jpaBankRepository.save(BankEntityMapper.domainToEntity(bank)));
+    }
 
 }

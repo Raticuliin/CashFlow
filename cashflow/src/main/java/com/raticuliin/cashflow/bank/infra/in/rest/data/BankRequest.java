@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateBankRequest {
+public class BankRequest {
 
+    private long id;
     private String name;
 
 }

@@ -1,9 +1,6 @@
 package com.raticuliin.cashflow.bank.app.in;
 
-import com.raticuliin.cashflow.bank.app.in.usecase.CreateBankUseCase;
-import com.raticuliin.cashflow.bank.app.in.usecase.GetAllBanksUseCase;
-import com.raticuliin.cashflow.bank.app.in.usecase.GetBankByIdUseCase;
-import com.raticuliin.cashflow.bank.app.in.usecase.GetBankByNameContaining;
+import com.raticuliin.cashflow.bank.app.in.usecase.*;
 import com.raticuliin.cashflow.bank.domain.Bank;
 import com.raticuliin.cashflow.bank.infra.out.postgres.repository.BankRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +14,14 @@ public class BankService implements
         CreateBankUseCase,
         GetAllBanksUseCase,
         GetBankByIdUseCase,
-        GetBankByNameContaining {
+        GetBankByNameContaining,
+        UpdateBankUseCase {
 
     @Autowired
     BankRepository bankRepository;
 
     @Override
-    public Bank create(Bank bank) throws Exception {
+    public Bank createBank(Bank bank) throws Exception {
 
         if (bankRepository.existsByName(bank.getName())) {
             throw new Exception("Bank name already exists");
@@ -43,7 +41,7 @@ public class BankService implements
         Optional<Bank> bankOptional = bankRepository.getBankById(id);
 
         if (bankOptional.isEmpty())
-            throw new Exception("No bank found with that ID");
+            throw new Exception(String.format("No bank found with ID: %d", id));
 
         return bankOptional.get();
     }
@@ -51,5 +49,21 @@ public class BankService implements
     @Override
     public List<Bank> getBankByNameContaining(String name) {
         return bankRepository.getBanksByNameContaining(name);
+    }
+
+    @Override
+    public Bank updateBank(Bank bank) throws Exception {
+
+
+
+        if (!bankRepository.existsById(bank.getId())) {
+            throw new Exception(String.format("No bank found with ID: %d", bank.getId()));
+        }
+
+        if (bankRepository.existsByName(bank.getName())) {
+            throw new Exception("Bank name already exists");
+        }
+
+        return bankRepository.updateBank(bank);
     }
 }

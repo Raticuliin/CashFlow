@@ -8,10 +8,13 @@ import java.util.Optional;
 public interface IBankRepository {
 
     Bank createBank(Bank bank);
-    boolean existsByName(String name);
 
     List<Bank> getAllBanks();
     Optional<Bank> getBankById(long id);
     List<Bank> getBanksByNameContaining(String name);
 
+    Bank updateBank(Bank bank);
+
+    boolean existsByName(String name);
+    boolean existsById(long id);
 }

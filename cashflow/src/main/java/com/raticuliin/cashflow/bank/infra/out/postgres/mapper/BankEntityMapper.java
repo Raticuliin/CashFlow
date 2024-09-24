@@ -17,6 +17,7 @@ public class BankEntityMapper {
     public static BankEntity domainToEntity(Bank bank) {
 
         return BankEntity.builder()
+                .id(bank.getId())
                 .name(bank.getName())
                 .build();
 
