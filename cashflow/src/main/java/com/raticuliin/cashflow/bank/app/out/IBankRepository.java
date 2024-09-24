@@ -15,6 +15,9 @@ public interface IBankRepository {
 
     Bank updateBank(Bank bank);
 
+    void deleteBank(long id);
+
     boolean existsByName(String name);
     boolean existsById(long id);
+
 }

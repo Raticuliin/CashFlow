@@ -15,7 +15,8 @@ public class BankService implements
         GetAllBanksUseCase,
         GetBankByIdUseCase,
         GetBankByNameContaining,
-        UpdateBankUseCase {
+        UpdateBankUseCase,
+        DeleteBankUseCase {
 
     @Autowired
     BankRepository bankRepository;
@@ -65,5 +66,15 @@ public class BankService implements
         }
 
         return bankRepository.updateBank(bank);
+    }
+
+    @Override
+    public Bank deleteBank(long id) throws Exception {
+
+        Bank bank = getBankById(id);
+
+        bankRepository.deleteBank(id);
+
+        return bank;
     }
 }

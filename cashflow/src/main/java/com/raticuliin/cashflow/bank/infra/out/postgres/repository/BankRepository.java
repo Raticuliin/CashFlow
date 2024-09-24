@@ -60,4 +60,9 @@ public class BankRepository implements IBankRepository {
         return BankEntityMapper.entityToDomain(jpaBankRepository.save(BankEntityMapper.domainToEntity(bank)));
     }
 
+    @Override
+    public void deleteBank(long id) {
+        jpaBankRepository.deleteById(id);
+    }
+
 }

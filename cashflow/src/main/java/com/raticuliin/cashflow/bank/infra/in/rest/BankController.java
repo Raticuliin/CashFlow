@@ -31,6 +31,9 @@ public class BankController {
     @Autowired
     UpdateBankUseCase updateBankUseCase;
 
+    @Autowired
+    DeleteBankUseCase deleteBankUseCase;
+
     @PostMapping("/create")
     public ResponseEntity<?> createBook(@RequestBody BankRequest createBankRequest) {
 
@@ -142,6 +145,28 @@ public class BankController {
         }
 
         return ResponseEntity.ok(bankResponse);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteBank(@PathVariable("id") long id) {
+
+        BankResponse bankResponse;
+
+        try {
+            bankResponse = BankMapper.domainToBankResponse(deleteBankUseCase.deleteBank(id));
+        } catch (Exception e) {
+
+            ErrorResponse response = ErrorResponse.builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message(e.getMessage())
+                    .build();
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+
+        }
+
+        return ResponseEntity.ok(bankResponse);
+
     }
 
 }
