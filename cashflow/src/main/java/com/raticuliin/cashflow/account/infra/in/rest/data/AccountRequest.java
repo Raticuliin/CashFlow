@@ -1,10 +1,7 @@
 package com.raticuliin.cashflow.account.infra.in.rest.data;
 
 import com.raticuliin.cashflow.account.domain.AccountType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
@@ -12,10 +9,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AccountRequest {
 
+    @NonNull
     private String name;
+
     private Double balance;
+
     private Double revenue;
+
+    @NonNull
     private Long bankId;
+
+    @NonNull
     private AccountType accountType;
 
 }

@@ -1,14 +1,12 @@
 package com.raticuliin.cashflow.bank.infra.in.rest.data;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class BankRequest {
+    @NonNull
     private String name;
 }
