@@ -4,7 +4,7 @@ import com.raticuliin.cashflow.account.domain.Account;
 
 import java.util.List;
 
-public interface GetAccountsByNameContaining {
+public interface GetAccountsByNameContainingUseCase {
 
     List<Account> getAccountsByNameContaining(String name);
 

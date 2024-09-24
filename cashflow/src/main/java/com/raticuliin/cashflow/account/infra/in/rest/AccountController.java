@@ -2,7 +2,7 @@ package com.raticuliin.cashflow.account.infra.in.rest;
 
 import com.raticuliin.cashflow.account.app.in.usecase.CreateAccountUseCase;
 import com.raticuliin.cashflow.account.app.in.usecase.GetAccountByIdUseCase;
-import com.raticuliin.cashflow.account.app.in.usecase.GetAccountsByNameContaining;
+import com.raticuliin.cashflow.account.app.in.usecase.GetAccountsByNameContainingUseCase;
 import com.raticuliin.cashflow.account.app.in.usecase.GetAllAccountsUseCase;
 import com.raticuliin.cashflow.account.infra.in.rest.data.AccountRequest;
 import com.raticuliin.cashflow.account.infra.in.rest.data.AccountResponse;
@@ -29,7 +29,7 @@ public class AccountController {
     private GetAccountByIdUseCase getAccountByIdUseCase;
 
     @Autowired
-    private GetAccountsByNameContaining getAccountsByNameContaining;
+    private GetAccountsByNameContainingUseCase getAccountsByNameContaining;
 
     @PostMapping("/create")
     public ResponseEntity<?> createAccount(@RequestBody AccountRequest accountRequest) {
