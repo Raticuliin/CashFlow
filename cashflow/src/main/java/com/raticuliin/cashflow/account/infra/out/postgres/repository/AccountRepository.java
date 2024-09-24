@@ -7,6 +7,8 @@ import com.raticuliin.cashflow.account.infra.out.postgres.repository.jpa.JpaAcco
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class AccountRepository implements IAccountRepository {
 
@@ -16,5 +18,13 @@ public class AccountRepository implements IAccountRepository {
     @Override
     public Account createAccount(Account account) {
         return AccountEntityMapper.entityToDomain(jpaAccountRepository.save(AccountEntityMapper.domainToEntity(account)));
+    }
+
+    @Override
+    public List<Account> getAllAccounts() {
+        return jpaAccountRepository.findAll()
+                .stream()
+                .map(AccountEntityMapper::entityToDomain)
+                .toList();
     }
 }
