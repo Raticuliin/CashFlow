@@ -7,6 +7,9 @@ import com.raticuliin.cashflow.bank.infra.out.postgres.repository.jpa.JpaBankRep
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public class BankRepository implements IBankRepository {
 
@@ -24,4 +27,28 @@ public class BankRepository implements IBankRepository {
     public boolean existsByName(String name) {
         return jpaBankRepository.existsByName(name);
     }
+
+    @Override
+    public List<Bank> getAllBanks() {
+        return jpaBankRepository.findAll()
+                .stream()
+                .map(BankEntityMapper::entityToDomain)
+                .toList();
+    }
+
+    @Override
+    public Optional<Bank> getBankById(long id) {
+        return jpaBankRepository.findById(id)
+                .map(BankEntityMapper::entityToDomain);
+    }
+
+    @Override
+    public List<Bank> getBanksByNameContaining(String name) {
+        return jpaBankRepository.findByNameContainingIgnoreCase(name)
+                .stream()
+                .map(BankEntityMapper::entityToDomain)
+                .toList();
+    }
+
+
 }
