@@ -53,17 +53,17 @@ public class BankService implements
     }
 
     @Override
-    public Bank updateBank(Bank bank) throws Exception {
+    public Bank updateBank(long id, Bank bank) throws Exception {
 
-
-
-        if (!bankRepository.existsById(bank.getId())) {
-            throw new Exception(String.format("No bank found with ID: %d", bank.getId()));
+        if (!bankRepository.existsById(id)) {
+            throw new Exception(String.format("No bank found with ID: %d", id));
         }
 
         if (bankRepository.existsByName(bank.getName())) {
             throw new Exception("Bank name already exists");
         }
+
+        bank.setId(id);
 
         return bankRepository.updateBank(bank);
     }

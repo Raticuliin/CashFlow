@@ -127,13 +127,13 @@ public class BankController {
 
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<?> updateBank(@RequestBody BankRequest updateBankRequest) {
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateBank(@PathVariable("id") long id, @RequestBody BankRequest updateBankRequest) {
 
         BankResponse bankResponse;
 
         try {
-            bankResponse = BankMapper.domainToBankResponse(updateBankUseCase.updateBank(BankMapper.bankRequestToDomain(updateBankRequest)));
+            bankResponse = BankMapper.domainToBankResponse(updateBankUseCase.updateBank(id, BankMapper.bankRequestToDomain(updateBankRequest)));
         } catch (Exception e) {
 
             ErrorResponse response = ErrorResponse.builder()

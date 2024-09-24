@@ -9,7 +9,6 @@ public class BankMapper {
     public static Bank bankRequestToDomain(BankRequest createBankRequest) {
 
         return Bank.builder()
-                .id(createBankRequest.getId())
                 .name(createBankRequest.getName())
                 .build();
 
