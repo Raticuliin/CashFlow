@@ -48,11 +48,14 @@ public class BankRepository implements IBankRepository {
     }
 
     @Override
-    public List<Bank> getBanksByNameContaining(String name) {
-        return jpaBankRepository.findByNameContainingIgnoreCase(name)
-                .stream()
-                .map(BankEntityMapper::entityToDomain)
-                .toList();
+    public List<Bank> getBanksByFilter(String name) {
+        if (name != null)
+            return jpaBankRepository.findByNameContainingIgnoreCase(name)
+                    .stream()
+                    .map(BankEntityMapper::entityToDomain)
+                    .toList();
+
+        return getAllBanks();
     }
 
     @Override

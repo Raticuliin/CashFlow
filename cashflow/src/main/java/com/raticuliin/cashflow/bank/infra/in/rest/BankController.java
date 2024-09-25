@@ -97,13 +97,13 @@ public class BankController {
 
     }
 
-    @GetMapping("")
-    public ResponseEntity<?> getBanksByNameContaining(@RequestParam("name") String name) {
+    @GetMapping("/filter")
+    public ResponseEntity<?> getBanksBy(@RequestParam(required = false, name = "name") String name) {
 
         List<BankResponse> bankResponseList;
 
         try {
-            bankResponseList = getBankByNameContaining.getBankByNameContaining(name)
+            bankResponseList = getBankByNameContaining.getBankByFilter(name)
                     .stream()
                     .map(BankMapper::domainToBankResponse)
                     .toList();

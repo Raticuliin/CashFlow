@@ -11,7 +11,7 @@ public interface IBankRepository {
 
     List<Bank> getAllBanks();
     Optional<Bank> getBankById(Long id);
-    List<Bank> getBanksByNameContaining(String name);
+    List<Bank> getBanksByFilter(String name);
 
     Bank updateBank(Bank bank);
 

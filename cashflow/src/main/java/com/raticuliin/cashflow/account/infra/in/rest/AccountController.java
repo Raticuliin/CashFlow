@@ -2,8 +2,9 @@ package com.raticuliin.cashflow.account.infra.in.rest;
 
 import com.raticuliin.cashflow.account.app.in.usecase.CreateAccountUseCase;
 import com.raticuliin.cashflow.account.app.in.usecase.GetAccountByIdUseCase;
-import com.raticuliin.cashflow.account.app.in.usecase.GetAccountsByNameContainingUseCase;
+import com.raticuliin.cashflow.account.app.in.usecase.GetAccountsByFilterUseCase;
 import com.raticuliin.cashflow.account.app.in.usecase.GetAllAccountsUseCase;
+import com.raticuliin.cashflow.account.domain.AccountType;
 import com.raticuliin.cashflow.account.infra.in.rest.data.AccountRequest;
 import com.raticuliin.cashflow.account.infra.in.rest.data.AccountResponse;
 import com.raticuliin.cashflow.account.infra.in.rest.mapper.AccountMapper;
@@ -26,7 +27,7 @@ public class AccountController {
 
     private final GetAccountByIdUseCase getAccountByIdUseCase;
 
-    private final GetAccountsByNameContainingUseCase getAccountsByNameContaining;
+    private final GetAccountsByFilterUseCase getAccountsByFilterUseCase;
 
     @PostMapping("/create")
     public ResponseEntity<?> createAccount(@RequestBody AccountRequest accountRequest) {
@@ -95,13 +96,19 @@ public class AccountController {
 
     }
 
-    @GetMapping("")
-    public ResponseEntity<?> getAccountsByNameContaining(@RequestParam("name") String name) {
+    @GetMapping("/filter")
+    public ResponseEntity<?> getAccountsByFilter(
+            @RequestParam(
+                    required = false, name = "name") String name,
+            @RequestParam(
+                    required = false, name = "type") AccountType type,
+            @RequestParam(
+                    required = false, name = "bank") Long bankId) {
 
         List<AccountResponse> accountResponseList;
 
         try {
-            accountResponseList = getAccountsByNameContaining.getAccountsByNameContaining(name)
+            accountResponseList = getAccountsByFilterUseCase.getAccountsByFilter(name, type, bankId)
                     .stream()
                     .map(AccountMapper::domainToResponse)
                     .toList();

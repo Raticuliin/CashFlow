@@ -2,10 +2,11 @@ package com.raticuliin.cashflow.account.app.in;
 
 import com.raticuliin.cashflow.account.app.in.usecase.CreateAccountUseCase;
 import com.raticuliin.cashflow.account.app.in.usecase.GetAccountByIdUseCase;
-import com.raticuliin.cashflow.account.app.in.usecase.GetAccountsByNameContainingUseCase;
+import com.raticuliin.cashflow.account.app.in.usecase.GetAccountsByFilterUseCase;
 import com.raticuliin.cashflow.account.app.in.usecase.GetAllAccountsUseCase;
 import com.raticuliin.cashflow.account.app.out.IAccountRepository;
 import com.raticuliin.cashflow.account.domain.Account;
+import com.raticuliin.cashflow.account.domain.AccountType;
 import com.raticuliin.cashflow.bank.app.in.BankService;
 import com.raticuliin.cashflow.bank.domain.Bank;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,7 @@ public class AccountService implements
         CreateAccountUseCase,
         GetAllAccountsUseCase,
         GetAccountByIdUseCase,
-        GetAccountsByNameContainingUseCase {
+        GetAccountsByFilterUseCase {
 
     private final IAccountRepository accountRepository;
 
@@ -58,9 +59,8 @@ public class AccountService implements
     }
 
     @Override
-    public List<Account> getAccountsByNameContaining(String name) {
-
-        return accountRepository.getAccountByNameContaining(name);
+    public List<Account> getAccountsByFilter(String name, AccountType type, Long bankId) {
+        return accountRepository.getAccountsByFilter(name, type, bankId);
 
     }
 }

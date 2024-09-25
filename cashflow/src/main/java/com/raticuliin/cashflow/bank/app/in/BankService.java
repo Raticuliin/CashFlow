@@ -48,8 +48,8 @@ public class BankService implements
     }
 
     @Override
-    public List<Bank> getBankByNameContaining(String name) {
-        return bankRepository.getBanksByNameContaining(name);
+    public List<Bank> getBankByFilter(String name) {
+        return bankRepository.getBanksByFilter(name);
     }
 
     @Override

@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface GetBankByNameContaining {
 
-    List<Bank> getBankByNameContaining(String name);
+    List<Bank> getBankByFilter(String name);
 
 }
