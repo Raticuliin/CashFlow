@@ -3,13 +3,14 @@ package com.raticuliin.cashflow.bank.app.in;
 import com.raticuliin.cashflow.bank.app.in.usecase.*;
 import com.raticuliin.cashflow.bank.app.out.IBankRepository;
 import com.raticuliin.cashflow.bank.domain.Bank;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class BankService implements
         CreateBankUseCase,
         GetAllBanksUseCase,
@@ -18,8 +19,7 @@ public class BankService implements
         UpdateBankUseCase,
         DeleteBankUseCase {
 
-    @Autowired
-    private IBankRepository bankRepository;
+    private final IBankRepository bankRepository;
 
     @Override
     public Bank createBank(Bank bank) throws Exception {

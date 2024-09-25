@@ -1,8 +1,8 @@
 package com.raticuliin.cashflow.bank.infra.in.rest.mapper;
 
 import com.raticuliin.cashflow.bank.domain.Bank;
-import com.raticuliin.cashflow.bank.infra.in.rest.data.BankResponse;
 import com.raticuliin.cashflow.bank.infra.in.rest.data.BankRequest;
+import com.raticuliin.cashflow.bank.infra.in.rest.data.BankResponse;
 
 public class BankMapper {
 

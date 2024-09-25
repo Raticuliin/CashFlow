@@ -4,17 +4,17 @@ import com.raticuliin.cashflow.bank.app.out.IBankRepository;
 import com.raticuliin.cashflow.bank.domain.Bank;
 import com.raticuliin.cashflow.bank.infra.out.postgres.mapper.BankEntityMapper;
 import com.raticuliin.cashflow.bank.infra.out.postgres.repository.jpa.JpaBankRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
+@AllArgsConstructor
 public class BankRepository implements IBankRepository {
 
-    @Autowired
-    JpaBankRepository jpaBankRepository;
+    private final JpaBankRepository jpaBankRepository;
 
     @Override
     public Bank createBank(Bank bank) {

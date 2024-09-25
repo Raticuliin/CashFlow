@@ -4,17 +4,17 @@ import com.raticuliin.cashflow.account.app.out.IAccountRepository;
 import com.raticuliin.cashflow.account.domain.Account;
 import com.raticuliin.cashflow.account.infra.out.postgres.mapper.AccountEntityMapper;
 import com.raticuliin.cashflow.account.infra.out.postgres.repository.jpa.JpaAccountRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
+@AllArgsConstructor
 public class AccountRepository implements IAccountRepository {
 
-    @Autowired
-    JpaAccountRepository jpaAccountRepository;
+    private final JpaAccountRepository jpaAccountRepository;
 
     @Override
     public Boolean existsByName(String name) {

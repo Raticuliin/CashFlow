@@ -8,7 +8,7 @@ import com.raticuliin.cashflow.account.infra.in.rest.data.AccountRequest;
 import com.raticuliin.cashflow.account.infra.in.rest.data.AccountResponse;
 import com.raticuliin.cashflow.account.infra.in.rest.mapper.AccountMapper;
 import com.raticuliin.cashflow.utils.data.ErrorResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,19 +17,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/account")
+@AllArgsConstructor
 public class AccountController {
 
-    @Autowired
-    private CreateAccountUseCase createAccountUseCase;
+    private final CreateAccountUseCase createAccountUseCase;
 
-    @Autowired
-    private GetAllAccountsUseCase getAllAccountsUseCase;
+    private final GetAllAccountsUseCase getAllAccountsUseCase;
 
-    @Autowired
-    private GetAccountByIdUseCase getAccountByIdUseCase;
+    private final GetAccountByIdUseCase getAccountByIdUseCase;
 
-    @Autowired
-    private GetAccountsByNameContainingUseCase getAccountsByNameContaining;
+    private final GetAccountsByNameContainingUseCase getAccountsByNameContaining;
 
     @PostMapping("/create")
     public ResponseEntity<?> createAccount(@RequestBody AccountRequest accountRequest) {

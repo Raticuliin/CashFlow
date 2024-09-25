@@ -8,7 +8,7 @@ import com.raticuliin.cashflow.account.app.out.IAccountRepository;
 import com.raticuliin.cashflow.account.domain.Account;
 import com.raticuliin.cashflow.bank.app.in.BankService;
 import com.raticuliin.cashflow.bank.domain.Bank;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,17 +16,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class AccountService implements
         CreateAccountUseCase,
         GetAllAccountsUseCase,
         GetAccountByIdUseCase,
         GetAccountsByNameContainingUseCase {
 
-    @Autowired
-    private IAccountRepository accountRepository;
+    private final IAccountRepository accountRepository;
 
-    @Autowired
-    private BankService bankService;
+    private final BankService bankService;
 
     @Override
     public Account createAccount(Account account) throws Exception {

@@ -1,11 +1,11 @@
 package com.raticuliin.cashflow.bank.infra.in.rest;
 
 import com.raticuliin.cashflow.bank.app.in.usecase.*;
-import com.raticuliin.cashflow.bank.infra.in.rest.data.BankResponse;
 import com.raticuliin.cashflow.bank.infra.in.rest.data.BankRequest;
+import com.raticuliin.cashflow.bank.infra.in.rest.data.BankResponse;
 import com.raticuliin.cashflow.bank.infra.in.rest.mapper.BankMapper;
 import com.raticuliin.cashflow.utils.data.ErrorResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,25 +14,20 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/bank")
+@AllArgsConstructor
 public class BankController {
 
-    @Autowired
-    CreateBankUseCase createBankUseCase;
+    private final CreateBankUseCase createBankUseCase;
 
-    @Autowired
-    GetAllBanksUseCase getAllBanksUseCase;
+    private final GetAllBanksUseCase getAllBanksUseCase;
 
-    @Autowired
-    GetBankByIdUseCase getBankByIdUseCase;
+    private final GetBankByIdUseCase getBankByIdUseCase;
 
-    @Autowired
-    GetBankByNameContaining getBankByNameContaining;
+    private final GetBankByNameContaining getBankByNameContaining;
 
-    @Autowired
-    UpdateBankUseCase updateBankUseCase;
+    private final UpdateBankUseCase updateBankUseCase;
 
-    @Autowired
-    DeleteBankUseCase deleteBankUseCase;
+    private final DeleteBankUseCase deleteBankUseCase;
 
     @PostMapping("/create")
     public ResponseEntity<?> createBook(@RequestBody BankRequest createBankRequest) {

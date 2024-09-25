@@ -15,6 +15,7 @@ public class Transaction {
     private String id;
     private String description;
     private Double value;
+    private Boolean periodic;
     private LocalDateTime date;
     private Category category;
     private TransactionType transactionType;
