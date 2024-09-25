@@ -23,7 +23,7 @@ public class BankController {
 
     private final GetBankByIdUseCase getBankByIdUseCase;
 
-    private final GetBankByNameContaining getBankByNameContaining;
+    private final GetBanksByFilterUseCase getBanksByFilterUseCase;
 
     private final UpdateBankUseCase updateBankUseCase;
 
@@ -103,7 +103,7 @@ public class BankController {
         List<BankResponse> bankResponseList;
 
         try {
-            bankResponseList = getBankByNameContaining.getBankByFilter(name)
+            bankResponseList = getBanksByFilterUseCase.getBanksByFilter(name)
                     .stream()
                     .map(BankMapper::domainToBankResponse)
                     .toList();

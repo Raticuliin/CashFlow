@@ -15,7 +15,7 @@ public class BankService implements
         CreateBankUseCase,
         GetAllBanksUseCase,
         GetBankByIdUseCase,
-        GetBankByNameContaining,
+        GetBanksByFilterUseCase,
         UpdateBankUseCase,
         DeleteBankUseCase {
 
@@ -48,7 +48,7 @@ public class BankService implements
     }
 
     @Override
-    public List<Bank> getBankByFilter(String name) {
+    public List<Bank> getBanksByFilter(String name) {
         return bankRepository.getBanksByFilter(name);
     }
 

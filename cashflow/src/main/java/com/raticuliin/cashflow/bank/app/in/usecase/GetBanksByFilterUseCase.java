@@ -4,8 +4,8 @@ import com.raticuliin.cashflow.bank.domain.Bank;
 
 import java.util.List;
 
-public interface GetBankByNameContaining {
+public interface GetBanksByFilterUseCase {
 
-    List<Bank> getBankByFilter(String name);
+    List<Bank> getBanksByFilter(String name);
 
 }
