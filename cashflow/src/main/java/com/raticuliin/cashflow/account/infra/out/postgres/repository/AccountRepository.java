@@ -74,4 +74,9 @@ public class AccountRepository implements IAccountRepository {
                         AccountEntityMapper.domainToEntity(account)));
 
     }
+
+    @Override
+    public void deleteAccount(Long id) {
+        jpaAccountRepository.deleteById(id);
+    }
 }

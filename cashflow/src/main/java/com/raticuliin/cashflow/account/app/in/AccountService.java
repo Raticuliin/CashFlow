@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -20,7 +19,8 @@ public class AccountService implements
         GetAllAccountsUseCase,
         GetAccountByIdUseCase,
         GetAccountsByFilterUseCase,
-        UpdateAccountUseCase {
+        UpdateAccountUseCase,
+        DeleteAccountUseCase{
 
     private final IAccountRepository accountRepository;
 
@@ -47,13 +47,8 @@ public class AccountService implements
     @Override
     public Account getAccountById(Long id) throws Exception {
 
-        Optional<Account> accountOptional = accountRepository.getAccountById(id);
+        return accountRepository.getAccountById(id).orElseThrow(() -> new Exception(String.format("No account found with ID: %d", id)));
 
-        if (accountOptional.isEmpty()) {
-            throw new Exception(String.format("No account found with ID: %d", id));
-        }
-
-        return accountOptional.get();
     }
 
     @Override
@@ -65,27 +60,33 @@ public class AccountService implements
     @Override
     public Account updateAccount(Long id, Account account) throws Exception {
 
-        Optional<Account> savedAccount = accountRepository.getAccountById(id);
-
-        if (savedAccount.isEmpty())
-            throw new Exception(String.format("No account found with ID: %d", id));
-
+        Account savedAccount = accountRepository.getAccountById(id)
+                .orElseThrow(() -> new Exception(String.format("No account found with ID: %d", id)));
 
         account.setId(id);
         account.setDate(LocalDateTime.now());
 
-        // Meto los valores si existen:
         if (account.getName() == null)
-            account.setName(savedAccount.get().getName());
+            account.setName(savedAccount.getName());
         if (account.getBalance() == null)
-            account.setBalance(savedAccount.get().getBalance());
+            account.setBalance(savedAccount.getBalance());
         if (account.getRevenue() == null)
-            account.setRevenue(savedAccount.get().getRevenue());
+            account.setRevenue(savedAccount.getRevenue());
         if (account.getBank() == null)
-            account.setBank(savedAccount.get().getBank());
+            account.setBank(savedAccount.getBank());
         if (account.getAccountType() == null)
-            account.setAccountType(savedAccount.get().getAccountType());
+            account.setAccountType(savedAccount.getAccountType());
 
         return accountRepository.updateAccount(account);
+    }
+
+    @Override
+    public Account deleteAccount(Long id) throws Exception {
+
+        Account account = getAccountById(id);
+
+        accountRepository.deleteAccount(id);
+
+        return account;
     }
 }

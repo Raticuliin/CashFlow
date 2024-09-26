@@ -19,4 +19,6 @@ public interface IAccountRepository {
     List<Account> getAccountsByFilter(String name, AccountType type, Long bank);
 
     Account updateAccount(Account account);
+
+    void deleteAccount(Long id);
 }

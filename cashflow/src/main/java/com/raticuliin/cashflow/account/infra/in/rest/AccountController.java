@@ -28,6 +28,8 @@ public class AccountController {
 
     private final UpdateAccountUseCase updateAccountUseCase;
 
+    private final DeleteAccountUseCase deleteAccountUseCase;
+
     @PostMapping("/create")
     public ResponseEntity<?> createAccount(@RequestBody AccountRequest accountRequest) {
 
@@ -135,6 +137,29 @@ public class AccountController {
                     updateAccountUseCase.updateAccount(
                             id,
                             AccountMapper.requestToDomain(accountRequest)));
+
+        } catch (Exception e) {
+            ErrorResponse response = ErrorResponse.builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message(e.getMessage())
+                    .build();
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(accountResponse);
+
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteAccount(@PathVariable Long id) {
+
+        AccountResponse accountResponse;
+
+        try {
+
+            accountResponse = AccountMapper.domainToResponse(
+                    deleteAccountUseCase.deleteAccount(id));
 
         } catch (Exception e) {
             ErrorResponse response = ErrorResponse.builder()
