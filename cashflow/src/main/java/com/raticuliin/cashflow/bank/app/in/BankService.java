@@ -1,11 +1,13 @@
 package com.raticuliin.cashflow.bank.app.in;
 
+import com.raticuliin.cashflow.account.domain.Account;
 import com.raticuliin.cashflow.bank.app.in.usecase.*;
 import com.raticuliin.cashflow.bank.app.out.IBankRepository;
 import com.raticuliin.cashflow.bank.domain.Bank;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,15 +57,16 @@ public class BankService implements
     @Override
     public Bank updateBank(Long id, Bank bank) throws Exception {
 
-        if (!bankRepository.existsById(id)) {
-            throw new Exception(String.format("No bank found with ID: %d", id));
-        }
+        Optional<Bank> savedBank = bankRepository.getBankById(id);
 
-        if (bankRepository.existsByName(bank.getName())) {
-            throw new Exception("Bank name already exists");
-        }
+        if (savedBank.isEmpty())
+            throw new Exception(String.format("No bank found with ID: %d", id));
+
 
         bank.setId(id);
+
+        if (bank.getName() == null)
+            bank.setName(savedBank.get().getName());
 
         return bankRepository.updateBank(bank);
     }

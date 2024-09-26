@@ -19,7 +19,7 @@ public class AccountResponse {
     private String name;
     private Double balance;
     private Double revenue;
-    private LocalDateTime created;
+    private LocalDateTime date;
     private BankResponse bank;
     private AccountType accountType;
 

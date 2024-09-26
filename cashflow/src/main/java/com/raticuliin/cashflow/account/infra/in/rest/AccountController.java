@@ -1,9 +1,6 @@
 package com.raticuliin.cashflow.account.infra.in.rest;
 
-import com.raticuliin.cashflow.account.app.in.usecase.CreateAccountUseCase;
-import com.raticuliin.cashflow.account.app.in.usecase.GetAccountByIdUseCase;
-import com.raticuliin.cashflow.account.app.in.usecase.GetAccountsByFilterUseCase;
-import com.raticuliin.cashflow.account.app.in.usecase.GetAllAccountsUseCase;
+import com.raticuliin.cashflow.account.app.in.usecase.*;
 import com.raticuliin.cashflow.account.domain.AccountType;
 import com.raticuliin.cashflow.account.infra.in.rest.data.AccountRequest;
 import com.raticuliin.cashflow.account.infra.in.rest.data.AccountResponse;
@@ -28,6 +25,8 @@ public class AccountController {
     private final GetAccountByIdUseCase getAccountByIdUseCase;
 
     private final GetAccountsByFilterUseCase getAccountsByFilterUseCase;
+
+    private final UpdateAccountUseCase updateAccountUseCase;
 
     @PostMapping("/create")
     public ResponseEntity<?> createAccount(@RequestBody AccountRequest accountRequest) {
@@ -122,6 +121,31 @@ public class AccountController {
         }
 
         return ResponseEntity.ok(accountResponseList);
+
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateAccount(@PathVariable Long id, @RequestBody AccountRequest accountRequest) {
+
+        AccountResponse accountResponse;
+
+        try {
+
+            accountResponse = AccountMapper.domainToResponse(
+                    updateAccountUseCase.updateAccount(
+                            id,
+                            AccountMapper.requestToDomain(accountRequest)));
+
+        } catch (Exception e) {
+            ErrorResponse response = ErrorResponse.builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message(e.getMessage())
+                    .build();
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(accountResponse);
 
     }
 

@@ -13,7 +13,7 @@ public class AccountEntityMapper {
                 .name(accountEntity.getName())
                 .balance(accountEntity.getBalance())
                 .revenue(accountEntity.getRevenue())
-                .created(accountEntity.getCreated())
+                .date(accountEntity.getDate())
                 .bank(
                         BankEntityMapper.entityToDomain(
                                 accountEntity.getBankEntity()))
@@ -29,7 +29,7 @@ public class AccountEntityMapper {
                 .name(account.getName())
                 .balance(account.getBalance())
                 .revenue(account.getRevenue())
-                .created(account.getCreated())
+                .date(account.getDate())
                 .bankEntity(
                         BankEntityMapper.domainToEntity(
                                 account.getBank()))

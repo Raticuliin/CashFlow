@@ -31,8 +31,8 @@ public class AccountEntity {
     @Column(name = "revenue")
     private Double revenue;
 
-    @Column(name = "created")
-    private LocalDateTime created;
+    @Column(name = "date")
+    private LocalDateTime date;
 
     @Column(name = "account_type")
     private AccountType accountType;

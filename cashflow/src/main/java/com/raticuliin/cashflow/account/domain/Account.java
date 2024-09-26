@@ -16,7 +16,7 @@ public class Account {
     private String name;
     private Double balance;
     private Double revenue;
-    private LocalDateTime created;
+    private LocalDateTime date;
     private Bank bank;
     private AccountType accountType;
 

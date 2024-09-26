@@ -1,9 +1,6 @@
 package com.raticuliin.cashflow.account.app.in;
 
-import com.raticuliin.cashflow.account.app.in.usecase.CreateAccountUseCase;
-import com.raticuliin.cashflow.account.app.in.usecase.GetAccountByIdUseCase;
-import com.raticuliin.cashflow.account.app.in.usecase.GetAccountsByFilterUseCase;
-import com.raticuliin.cashflow.account.app.in.usecase.GetAllAccountsUseCase;
+import com.raticuliin.cashflow.account.app.in.usecase.*;
 import com.raticuliin.cashflow.account.app.out.IAccountRepository;
 import com.raticuliin.cashflow.account.domain.Account;
 import com.raticuliin.cashflow.account.domain.AccountType;
@@ -22,7 +19,8 @@ public class AccountService implements
         CreateAccountUseCase,
         GetAllAccountsUseCase,
         GetAccountByIdUseCase,
-        GetAccountsByFilterUseCase {
+        GetAccountsByFilterUseCase,
+        UpdateAccountUseCase {
 
     private final IAccountRepository accountRepository;
 
@@ -34,7 +32,7 @@ public class AccountService implements
         Bank bank = bankService.getBankById(account.getBank().getId());
 
         account.setBank(bank);
-        account.setCreated(LocalDateTime.now());
+        account.setDate(LocalDateTime.now());
 
         return accountRepository.createAccount(account);
     }
@@ -62,5 +60,32 @@ public class AccountService implements
     public List<Account> getAccountsByFilter(String name, AccountType type, Long bankId) {
         return accountRepository.getAccountsByFilter(name, type, bankId);
 
+    }
+
+    @Override
+    public Account updateAccount(Long id, Account account) throws Exception {
+
+        Optional<Account> savedAccount = accountRepository.getAccountById(id);
+
+        if (savedAccount.isEmpty())
+            throw new Exception(String.format("No account found with ID: %d", id));
+
+
+        account.setId(id);
+        account.setDate(LocalDateTime.now());
+
+        // Meto los valores si existen:
+        if (account.getName() == null)
+            account.setName(savedAccount.get().getName());
+        if (account.getBalance() == null)
+            account.setBalance(savedAccount.get().getBalance());
+        if (account.getRevenue() == null)
+            account.setRevenue(savedAccount.get().getRevenue());
+        if (account.getBank() == null)
+            account.setBank(savedAccount.get().getBank());
+        if (account.getAccountType() == null)
+            account.setAccountType(savedAccount.get().getAccountType());
+
+        return accountRepository.updateAccount(account);
     }
 }

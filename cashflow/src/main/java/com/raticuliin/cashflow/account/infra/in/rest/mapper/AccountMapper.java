@@ -12,8 +12,8 @@ public class AccountMapper {
 
         return Account.builder()
                 .name(request.getName())
-                .balance(request.getBalance()==null?0:request.getBalance())
-                .revenue(request.getRevenue()==null?0:request.getRevenue())
+                .balance(request.getBalance())
+                .revenue(request.getRevenue())
                 .bank(
                         Bank.builder()
                                 .id(request.getBankId())
@@ -31,7 +31,7 @@ public class AccountMapper {
                 .name(account.getName())
                 .balance(account.getBalance())
                 .revenue(account.getRevenue())
-                .created(account.getCreated())
+                .date(account.getDate())
                 .bank(
                         BankMapper.domainToBankResponse(account.getBank())
                 )

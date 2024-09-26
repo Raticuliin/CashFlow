@@ -17,4 +17,6 @@ public interface IAccountRepository {
     Optional<Account> getAccountById(Long id);
 
     List<Account> getAccountsByFilter(String name, AccountType type, Long bank);
+
+    Account updateAccount(Account account);
 }

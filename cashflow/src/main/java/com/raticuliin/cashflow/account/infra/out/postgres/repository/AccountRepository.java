@@ -65,4 +65,13 @@ public class AccountRepository implements IAccountRepository {
                 .toList();
 
     }
+
+    @Override
+    public Account updateAccount(Account account) {
+
+        return AccountEntityMapper.entityToDomain(
+                jpaAccountRepository.save(
+                        AccountEntityMapper.domainToEntity(account)));
+
+    }
 }
