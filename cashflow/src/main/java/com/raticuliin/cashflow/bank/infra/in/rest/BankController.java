@@ -4,6 +4,7 @@ import com.raticuliin.cashflow.bank.app.in.usecase.*;
 import com.raticuliin.cashflow.bank.infra.in.rest.data.BankRequest;
 import com.raticuliin.cashflow.bank.infra.in.rest.data.BankResponse;
 import com.raticuliin.cashflow.bank.infra.in.rest.mapper.BankMapper;
+import com.raticuliin.cashflow.utils.Utils;
 import com.raticuliin.cashflow.utils.data.ErrorResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,13 +38,9 @@ public class BankController {
         try {
             bankResponse = BankMapper.domainToBankResponse(createBankUseCase.createBank(BankMapper.bankRequestToDomain(createBankRequest)));
         } catch (Exception e) {
-
-            ErrorResponse response = ErrorResponse.builder()
-                    .code(HttpStatus.BAD_REQUEST.value())
-                    .message(e.getMessage())
-                    .build();
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Utils.getErrorResponse(e, HttpStatus.BAD_REQUEST));
         }
 
         return ResponseEntity.ok(bankResponse);
@@ -61,13 +58,9 @@ public class BankController {
                     .map(BankMapper::domainToBankResponse)
                     .toList();
         } catch (Exception e) {
-
-            ErrorResponse response = ErrorResponse.builder()
-                    .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                    .message(e.getMessage())
-                    .build();
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Utils.getErrorResponse(e, HttpStatus.BAD_REQUEST));
 
         }
 
@@ -84,12 +77,9 @@ public class BankController {
             bankResponse = BankMapper.domainToBankResponse(getBankByIdUseCase.getBankById(id));
         } catch (Exception e) {
 
-            ErrorResponse response = ErrorResponse.builder()
-                    .code(HttpStatus.BAD_REQUEST.value())
-                    .message(e.getMessage())
-                    .build();
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Utils.getErrorResponse(e, HttpStatus.BAD_REQUEST));
 
         }
 
@@ -109,12 +99,9 @@ public class BankController {
                     .toList();
         } catch (Exception e) {
 
-            ErrorResponse response = ErrorResponse.builder()
-                    .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                    .message(e.getMessage())
-                    .build();
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Utils.getErrorResponse(e, HttpStatus.INTERNAL_SERVER_ERROR));
 
         }
 
@@ -131,12 +118,9 @@ public class BankController {
             bankResponse = BankMapper.domainToBankResponse(updateBankUseCase.updateBank(id, BankMapper.bankRequestToDomain(updateBankRequest)));
         } catch (Exception e) {
 
-            ErrorResponse response = ErrorResponse.builder()
-                    .code(HttpStatus.BAD_REQUEST.value())
-                    .message(e.getMessage())
-                    .build();
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Utils.getErrorResponse(e, HttpStatus.BAD_REQUEST));
         }
 
         return ResponseEntity.ok(bankResponse);
@@ -151,12 +135,9 @@ public class BankController {
             bankResponse = BankMapper.domainToBankResponse(deleteBankUseCase.deleteBank(id));
         } catch (Exception e) {
 
-            ErrorResponse response = ErrorResponse.builder()
-                    .code(HttpStatus.BAD_REQUEST.value())
-                    .message(e.getMessage())
-                    .build();
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Utils.getErrorResponse(e, HttpStatus.BAD_REQUEST));
 
         }
 

@@ -5,6 +5,7 @@ import com.raticuliin.cashflow.account.domain.AccountType;
 import com.raticuliin.cashflow.account.infra.in.rest.data.AccountRequest;
 import com.raticuliin.cashflow.account.infra.in.rest.data.AccountResponse;
 import com.raticuliin.cashflow.account.infra.in.rest.mapper.AccountMapper;
+import com.raticuliin.cashflow.utils.Utils;
 import com.raticuliin.cashflow.utils.data.ErrorResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -40,12 +41,9 @@ public class AccountController {
                     createAccountUseCase.createAccount(
                             AccountMapper.requestToDomain(accountRequest)));
         } catch (Exception e) {
-            ErrorResponse response = ErrorResponse.builder()
-                    .code(HttpStatus.BAD_REQUEST.value())
-                    .message(e.getMessage())
-                    .build();
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Utils.getErrorResponse(e, HttpStatus.BAD_REQUEST));
         }
 
         return ResponseEntity.ok(accountResponse);
@@ -63,12 +61,9 @@ public class AccountController {
                     .map(AccountMapper::domainToResponse)
                     .toList();
         } catch (Exception e) {
-            ErrorResponse response = ErrorResponse.builder()
-                    .code(HttpStatus.BAD_REQUEST.value())
-                    .message(e.getMessage())
-                    .build();
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Utils.getErrorResponse(e, HttpStatus.BAD_REQUEST));
         }
 
         return ResponseEntity.ok(accountResponseList);
@@ -114,12 +109,9 @@ public class AccountController {
                     .map(AccountMapper::domainToResponse)
                     .toList();
         } catch (Exception e) {
-            ErrorResponse response = ErrorResponse.builder()
-                    .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                    .message(e.getMessage())
-                    .build();
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Utils.getErrorResponse(e, HttpStatus.INTERNAL_SERVER_ERROR));
         }
 
         return ResponseEntity.ok(accountResponseList);
@@ -139,12 +131,9 @@ public class AccountController {
                             AccountMapper.requestToDomain(accountRequest)));
 
         } catch (Exception e) {
-            ErrorResponse response = ErrorResponse.builder()
-                    .code(HttpStatus.BAD_REQUEST.value())
-                    .message(e.getMessage())
-                    .build();
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Utils.getErrorResponse(e, HttpStatus.BAD_REQUEST));
         }
 
         return ResponseEntity.ok(accountResponse);
@@ -162,12 +151,9 @@ public class AccountController {
                     deleteAccountUseCase.deleteAccount(id));
 
         } catch (Exception e) {
-            ErrorResponse response = ErrorResponse.builder()
-                    .code(HttpStatus.BAD_REQUEST.value())
-                    .message(e.getMessage())
-                    .build();
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Utils.getErrorResponse(e, HttpStatus.BAD_REQUEST));
         }
 
         return ResponseEntity.ok(accountResponse);

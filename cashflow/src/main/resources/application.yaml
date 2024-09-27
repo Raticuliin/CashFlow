@@ -2,7 +2,7 @@ spring:
   application:
     name: cashflow
   profiles:
-    active: local-pc
+    active: local
   jpa:
     hibernate:
       ddl-auto: update

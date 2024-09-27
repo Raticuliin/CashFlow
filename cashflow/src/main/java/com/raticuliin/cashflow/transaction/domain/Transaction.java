@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Builder
@@ -17,7 +17,7 @@ public class Transaction {
     private String description;
     private Double value;
     private Boolean periodic;
-    private LocalDateTime date;
+    private Date date;
     private Account account;
     private Category category;
     private TransactionType transactionType;
