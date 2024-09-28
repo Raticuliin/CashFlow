@@ -4,6 +4,6 @@ import com.raticuliin.cashflow.category.domain.Category;
 
 public interface DeleteCategoryUseCase {
 
-    Category deleteCategory(Category category);
+    Category deleteCategory(Long id) throws Exception;
 
 }

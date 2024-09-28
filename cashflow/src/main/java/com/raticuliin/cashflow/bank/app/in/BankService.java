@@ -53,13 +53,13 @@ public class BankService implements
         Bank savedBank = bankRepository.getBankById(id)
                 .orElseThrow(() -> new Exception(String.format("No bank found with ID: %d", id)));
 
-        if (bank.getName().equals(savedBank.getName()))
-            throw new Exception("Bank name already exists");
-
         bank.setId(id);
 
         if (bank.getName() == null)
             bank.setName(savedBank.getName());
+
+        if (bankRepository.existsByName(bank.getName()))
+            throw new Exception("Bank name already exists");
 
         return bankRepository.updateBank(bank);
     }

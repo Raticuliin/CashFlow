@@ -4,6 +4,6 @@ import com.raticuliin.cashflow.category.domain.Category;
 
 public interface UpdateCategoryUseCase {
 
-    Category updateCategory(Category category);
+    Category updateCategory(Long id, Category category) throws Exception;
 
 }

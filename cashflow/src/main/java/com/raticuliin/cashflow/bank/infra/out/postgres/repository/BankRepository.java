@@ -19,8 +19,7 @@ public class BankRepository implements IBankRepository {
     @Override
     public Bank createBank(Bank bank) {
         return BankEntityMapper.entityToDomain(
-                jpaBankRepository.save(BankEntityMapper.domainToEntity(bank))
-        );
+                jpaBankRepository.save(BankEntityMapper.domainToEntity(bank)));
     }
 
     @Override

@@ -4,6 +4,6 @@ import com.raticuliin.cashflow.category.domain.Category;
 
 public interface CreateCategoryUseCase {
 
-    Category createCategory(Category category);
+    Category createCategory(Category category) throws Exception;
 
 }

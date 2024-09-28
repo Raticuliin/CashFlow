@@ -62,8 +62,8 @@ public class AccountController {
                     .toList();
         } catch (Exception e) {
             return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(Utils.getErrorResponse(e, HttpStatus.BAD_REQUEST));
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Utils.getErrorResponse(e, HttpStatus.INTERNAL_SERVER_ERROR));
         }
 
         return ResponseEntity.ok(accountResponseList);
