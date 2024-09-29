@@ -14,13 +14,6 @@ public interface JpaAccountRepository extends JpaRepository<AccountEntity, Long>
 
     Boolean existsByName(String name);
 
-    /*
-    * where
-    (:name IS NULL OR LOWER(account.account_name) LIKE LOWER(CONCAT('%', :name, '%'))) and
-    (:type IS NULL OR account.account_type = :type) and
-    (:bank IS NULL OR account.bank_id = :bank);
-    * */
-
     @Query(" SELECT a from AccountEntity a " +
                     " WHERE " +
                     " (:name IS NULL OR LOWER(a.name) LIKE LOWER(CONCAT('%' , :name , '%'))) AND " +

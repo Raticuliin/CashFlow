@@ -20,7 +20,7 @@ public class AccountService implements
         GetAccountByIdUseCase,
         GetAccountsByFilterUseCase,
         UpdateAccountUseCase,
-        DeleteAccountUseCase{
+        DeleteAccountUseCase {
 
     private final IAccountRepository accountRepository;
 
@@ -47,13 +47,14 @@ public class AccountService implements
     @Override
     public Account getAccountById(Long id) throws Exception {
 
-        return accountRepository.getAccountById(id).orElseThrow(() -> new Exception(String.format("No account found with ID: %d", id)));
+        return accountRepository.getAccountById(id)
+                .orElseThrow(() -> new Exception(String.format("No account found with ID: %d", id)));
 
     }
 
     @Override
-    public List<Account> getAccountsByFilter(String name, AccountType type, Long bankId) {
-        return accountRepository.getAccountsByFilter(name, type, bankId);
+    public List<Account> getAccountsByFilter(String name, AccountType type, Long bankId) throws Exception {
+        return accountRepository.getAccountsByFilter(name, type, bankService.getBankById(bankId));
 
     }
 
@@ -64,7 +65,7 @@ public class AccountService implements
                 .orElseThrow(() -> new Exception(String.format("No account found with ID: %d", id)));
 
         account.setId(id);
-        account.setDate(LocalDateTime.now());
+        // account.setDate(LocalDateTime.now());
 
         if (account.getName() == null)
             account.setName(savedAccount.getName());

@@ -43,6 +43,9 @@ public class TransactionEntity {
     @JoinColumn(name = "account_id")
     private AccountEntity account;
 
+    @Column(name = "transaction_type")
+    private TransactionType transactionType;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_from_id")
     private AccountEntity accountFrom;
@@ -55,6 +58,4 @@ public class TransactionEntity {
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
-    @Column(name = "transaction_type")
-    private TransactionType transactionType;
 }

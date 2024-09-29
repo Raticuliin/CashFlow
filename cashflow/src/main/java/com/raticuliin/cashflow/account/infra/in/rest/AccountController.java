@@ -6,7 +6,6 @@ import com.raticuliin.cashflow.account.infra.in.rest.data.AccountRequest;
 import com.raticuliin.cashflow.account.infra.in.rest.data.AccountResponse;
 import com.raticuliin.cashflow.account.infra.in.rest.mapper.AccountRestMapper;
 import com.raticuliin.cashflow.utils.Utils;
-import com.raticuliin.cashflow.utils.data.ErrorResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -71,7 +70,7 @@ public class AccountController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getAllAccounts(@PathVariable Long id) {
+    public ResponseEntity<?> getAccountById(@PathVariable Long id) {
 
         AccountResponse accountResponseList;
 
@@ -80,12 +79,9 @@ public class AccountController {
                     getAccountByIdUseCase.getAccountById(id)
             );
         } catch (Exception e) {
-            ErrorResponse response = ErrorResponse.builder()
-                    .code(HttpStatus.BAD_REQUEST.value())
-                    .message(e.getMessage())
-                    .build();
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Utils.getErrorResponse(e, HttpStatus.BAD_REQUEST));
         }
 
         return ResponseEntity.ok(accountResponseList);

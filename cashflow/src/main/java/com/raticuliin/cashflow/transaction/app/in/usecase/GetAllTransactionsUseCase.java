@@ -2,8 +2,10 @@ package com.raticuliin.cashflow.transaction.app.in.usecase;
 
 import com.raticuliin.cashflow.transaction.domain.Transaction;
 
-public interface CreateTransactionUseCase {
+import java.util.List;
 
-    Transaction createTransaction(Transaction transaction) throws Exception;
+public interface GetAllTransactionsUseCase {
+
+    List<Transaction> getAllTransactions();
 
 }

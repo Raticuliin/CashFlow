@@ -2,8 +2,8 @@ package com.raticuliin.cashflow.transaction.app.in.usecase;
 
 import com.raticuliin.cashflow.transaction.domain.Transaction;
 
-public interface CreateTransactionUseCase {
+public interface GetTransactionByIdUseCase {
 
-    Transaction createTransaction(Transaction transaction) throws Exception;
+    Transaction getTransactionById(Long id) throws Exception;
 
 }

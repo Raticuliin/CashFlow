@@ -5,8 +5,8 @@ import com.raticuliin.cashflow.account.domain.Account;
 import com.raticuliin.cashflow.account.domain.AccountType;
 import com.raticuliin.cashflow.account.infra.out.postgres.mapper.AccountEntityMapper;
 import com.raticuliin.cashflow.account.infra.out.postgres.repository.jpa.JpaAccountRepository;
+import com.raticuliin.cashflow.bank.domain.Bank;
 import com.raticuliin.cashflow.bank.infra.out.postgres.mapper.BankEntityMapper;
-import com.raticuliin.cashflow.bank.infra.out.postgres.repository.BankRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +18,6 @@ import java.util.Optional;
 public class AccountRepository implements IAccountRepository {
 
     private final JpaAccountRepository jpaAccountRepository;
-    private final BankRepository bankRepository;
 
     @Override
     public Boolean existsByName(String name) {
@@ -32,7 +31,9 @@ public class AccountRepository implements IAccountRepository {
 
     @Override
     public Account createAccount(Account account) {
-        return AccountEntityMapper.entityToDomain(jpaAccountRepository.save(AccountEntityMapper.domainToEntity(account)));
+        return AccountEntityMapper.entityToDomain(
+                jpaAccountRepository.save(
+                        AccountEntityMapper.domainToEntity(account)));
     }
 
     @Override
@@ -50,16 +51,12 @@ public class AccountRepository implements IAccountRepository {
     }
 
     @Override
-    public List<Account> getAccountsByFilter(String name, AccountType type, Long bankId) {
+    public List<Account> getAccountsByFilter(String name, AccountType type, Bank bank) {
 
         return jpaAccountRepository.findByFilter(
                     name,
                     type,
-                    bankId != null ?
-                            bankRepository.getBankById(bankId)
-                                .map(BankEntityMapper::domainToEntity)
-                                .orElse(null)
-                        : null)
+                    BankEntityMapper.domainToEntity(bank))
                 .stream()
                 .map(AccountEntityMapper::entityToDomain)
                 .toList();
