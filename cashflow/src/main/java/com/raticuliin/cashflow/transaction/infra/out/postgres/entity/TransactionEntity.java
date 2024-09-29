@@ -4,7 +4,10 @@ import com.raticuliin.cashflow.account.infra.out.postgres.entity.AccountEntity;
 import com.raticuliin.cashflow.category.infra.out.postgres.entity.CategoryEntity;
 import com.raticuliin.cashflow.transaction.domain.TransactionType;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

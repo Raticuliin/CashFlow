@@ -1,6 +1,5 @@
 package com.raticuliin.cashflow.transaction.infra.out.postgres.repository.jpa;
 
-import com.raticuliin.cashflow.category.domain.Category;
 import com.raticuliin.cashflow.category.infra.out.postgres.entity.CategoryEntity;
 import com.raticuliin.cashflow.transaction.domain.TransactionType;
 import com.raticuliin.cashflow.transaction.infra.out.postgres.entity.TransactionEntity;
@@ -9,7 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 

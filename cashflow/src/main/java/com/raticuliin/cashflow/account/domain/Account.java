@@ -2,7 +2,9 @@ package com.raticuliin.cashflow.account.domain;
 
 import com.raticuliin.cashflow.bank.domain.Bank;
 import com.raticuliin.cashflow.transaction.domain.Transaction;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
