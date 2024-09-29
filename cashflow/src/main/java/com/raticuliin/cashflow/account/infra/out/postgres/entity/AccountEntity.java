@@ -2,13 +2,16 @@ package com.raticuliin.cashflow.account.infra.out.postgres.entity;
 
 import com.raticuliin.cashflow.account.domain.AccountType;
 import com.raticuliin.cashflow.bank.infra.out.postgres.entity.BankEntity;
+import com.raticuliin.cashflow.transaction.infra.out.postgres.entity.TransactionEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -26,10 +29,10 @@ public class AccountEntity {
     private String name;
 
     @Column(name = "balance")
-    private Double balance;
+    private BigDecimal balance;
 
     @Column(name = "revenue")
-    private Double revenue;
+    private BigDecimal revenue;
 
     @Column(name = "date")
     private LocalDateTime date;
@@ -41,5 +44,25 @@ public class AccountEntity {
     @JoinColumn(name = "bank_id")
     private BankEntity bankEntity;
 
+    @OneToMany(
+            mappedBy = "account",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<TransactionEntity> transactions;
+
+    @OneToMany(
+            mappedBy = "accountFrom",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<TransactionEntity> outgointTransfers;
+
+    @OneToMany(
+            mappedBy = "accountTo",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<TransactionEntity> incomingTransfers;
 
 }

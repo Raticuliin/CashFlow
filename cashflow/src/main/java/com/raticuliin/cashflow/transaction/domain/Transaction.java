@@ -6,20 +6,24 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.Date;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Data
 @Builder
 @AllArgsConstructor
 public class Transaction {
 
-    private String id;
+    private Long id;
     private String description;
-    private Double value;
-    private Boolean periodic;
-    private Date date;
+    private BigDecimal value;
+    private Boolean isRecurring;
+    private LocalDate recurrenceDate;
+    private LocalDate transactionDate;
     private Account account;
-    private Category category;
     private TransactionType transactionType;
+    private Account accountTo;
+    private Account accountFrom;
+    private Category category;
 
 }

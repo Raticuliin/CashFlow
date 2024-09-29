@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -14,8 +15,8 @@ public class Account {
 
     private Long id;
     private String name;
-    private Double balance;
-    private Double revenue;
+    private BigDecimal balance;
+    private BigDecimal revenue;
     private LocalDateTime date;
     private Bank bank;
     private AccountType accountType;

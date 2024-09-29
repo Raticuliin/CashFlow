@@ -3,6 +3,8 @@ package com.raticuliin.cashflow.account.infra.in.rest.data;
 import com.raticuliin.cashflow.account.domain.AccountType;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -12,9 +14,9 @@ public class AccountRequest {
     @NonNull
     private String name;
 
-    private Double balance;
+    private BigDecimal balance;
 
-    private Double revenue;
+    private BigDecimal revenue;
 
     @NonNull
     private Long bankId;

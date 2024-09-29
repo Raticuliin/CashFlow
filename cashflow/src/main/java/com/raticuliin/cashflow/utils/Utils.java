@@ -2,7 +2,6 @@ package com.raticuliin.cashflow.utils;
 
 import com.raticuliin.cashflow.utils.data.ErrorResponse;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 public class Utils {
 

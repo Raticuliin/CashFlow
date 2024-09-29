@@ -4,7 +4,7 @@ import com.raticuliin.cashflow.account.app.in.usecase.*;
 import com.raticuliin.cashflow.account.domain.AccountType;
 import com.raticuliin.cashflow.account.infra.in.rest.data.AccountRequest;
 import com.raticuliin.cashflow.account.infra.in.rest.data.AccountResponse;
-import com.raticuliin.cashflow.account.infra.in.rest.mapper.AccountMapper;
+import com.raticuliin.cashflow.account.infra.in.rest.mapper.AccountRestMapper;
 import com.raticuliin.cashflow.utils.Utils;
 import com.raticuliin.cashflow.utils.data.ErrorResponse;
 import lombok.AllArgsConstructor;
@@ -37,9 +37,9 @@ public class AccountController {
         AccountResponse accountResponse;
 
         try {
-            accountResponse = AccountMapper.domainToResponse(
+            accountResponse = AccountRestMapper.domainToResponse(
                     createAccountUseCase.createAccount(
-                            AccountMapper.requestToDomain(accountRequest)));
+                            AccountRestMapper.requestToDomain(accountRequest)));
         } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
@@ -58,7 +58,7 @@ public class AccountController {
         try {
             accountResponseList = getAllAccountsUseCase.getAllAccounts()
                     .stream()
-                    .map(AccountMapper::domainToResponse)
+                    .map(AccountRestMapper::domainToResponse)
                     .toList();
         } catch (Exception e) {
             return ResponseEntity
@@ -76,7 +76,7 @@ public class AccountController {
         AccountResponse accountResponseList;
 
         try {
-            accountResponseList = AccountMapper.domainToResponse(
+            accountResponseList = AccountRestMapper.domainToResponse(
                     getAccountByIdUseCase.getAccountById(id)
             );
         } catch (Exception e) {
@@ -106,7 +106,7 @@ public class AccountController {
         try {
             accountResponseList = getAccountsByFilterUseCase.getAccountsByFilter(name, type, bankId)
                     .stream()
-                    .map(AccountMapper::domainToResponse)
+                    .map(AccountRestMapper::domainToResponse)
                     .toList();
         } catch (Exception e) {
             return ResponseEntity
@@ -125,10 +125,10 @@ public class AccountController {
 
         try {
 
-            accountResponse = AccountMapper.domainToResponse(
+            accountResponse = AccountRestMapper.domainToResponse(
                     updateAccountUseCase.updateAccount(
                             id,
-                            AccountMapper.requestToDomain(accountRequest)));
+                            AccountRestMapper.requestToDomain(accountRequest)));
 
         } catch (Exception e) {
             return ResponseEntity
@@ -147,7 +147,7 @@ public class AccountController {
 
         try {
 
-            accountResponse = AccountMapper.domainToResponse(
+            accountResponse = AccountRestMapper.domainToResponse(
                     deleteAccountUseCase.deleteAccount(id));
 
         } catch (Exception e) {

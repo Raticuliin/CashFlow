@@ -5,7 +5,6 @@ import com.raticuliin.cashflow.bank.infra.in.rest.data.BankRequest;
 import com.raticuliin.cashflow.bank.infra.in.rest.data.BankResponse;
 import com.raticuliin.cashflow.bank.infra.in.rest.mapper.BankMapper;
 import com.raticuliin.cashflow.utils.Utils;
-import com.raticuliin.cashflow.utils.data.ErrorResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

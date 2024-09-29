@@ -6,7 +6,7 @@ import com.raticuliin.cashflow.account.infra.in.rest.data.AccountResponse;
 import com.raticuliin.cashflow.bank.domain.Bank;
 import com.raticuliin.cashflow.bank.infra.in.rest.mapper.BankMapper;
 
-public class AccountMapper {
+public class AccountRestMapper {
 
     public static Account requestToDomain(AccountRequest request) {
 

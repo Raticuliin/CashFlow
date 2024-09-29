@@ -1,10 +1,13 @@
 package com.raticuliin.cashflow.category.infra.out.postgres.entity;
 
+import com.raticuliin.cashflow.transaction.infra.out.postgres.entity.TransactionEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -23,5 +26,12 @@ public class CategoryEntity {
 
     @Column(name = "description")
     private String description;
+
+    @OneToMany(
+            mappedBy = "category",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<TransactionEntity> transactions;
 
 }
