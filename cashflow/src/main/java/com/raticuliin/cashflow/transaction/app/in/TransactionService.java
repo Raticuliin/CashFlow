@@ -191,9 +191,14 @@ public class TransactionService implements
     }
 
     private void checkRecurrence(Transaction transaction) throws Exception {
-        if (transaction.getIsRecurring())
+        if (transaction.getIsRecurring()) {
             if (transaction.getRecurrenceDate() == null)
                 throw new Exception("Recurrence date cannot be null");
+
+            transaction.setRecurrenceDate(transaction.getRecurrenceDate());
+
+            return;
+        }
 
         transaction.setRecurrenceDate(null);
     }
