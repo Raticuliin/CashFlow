@@ -1,13 +1,11 @@
 package com.raticuliin.cashflow.account.infra.out.postgres.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.raticuliin.cashflow.account.domain.AccountType;
 import com.raticuliin.cashflow.bank.infra.out.postgres.entity.BankEntity;
 import com.raticuliin.cashflow.transaction.infra.out.postgres.entity.TransactionEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -49,6 +47,7 @@ public class AccountEntity {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonBackReference
     private List<TransactionEntity> transactions;
 
     @OneToMany(
@@ -56,6 +55,7 @@ public class AccountEntity {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonBackReference
     private List<TransactionEntity> outgointTransfers;
 
     @OneToMany(
@@ -63,6 +63,7 @@ public class AccountEntity {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonBackReference
     private List<TransactionEntity> incomingTransfers;
 
 }

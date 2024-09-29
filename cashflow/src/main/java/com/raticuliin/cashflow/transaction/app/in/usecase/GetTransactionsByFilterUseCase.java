@@ -4,6 +4,7 @@ import com.raticuliin.cashflow.transaction.domain.Transaction;
 import com.raticuliin.cashflow.transaction.domain.TransactionType;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface GetTransactionsByFilterUseCase {

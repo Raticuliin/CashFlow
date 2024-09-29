@@ -19,18 +19,18 @@ public class TransactionEntityMapper {
                 .account(
                         transaction.getAccount()==null?
                                 null:
-                                AccountEntityMapper.domainToEntity(transaction.getAccount())
+                                AccountEntityMapper.domainToEntityWithoutTransactions(transaction.getAccount())
                 )
                 .transactionType(transaction.getTransactionType())
                 .accountFrom(
                         transaction.getAccountFrom()==null?
                                 null:
-                                AccountEntityMapper.domainToEntity(transaction.getAccountFrom())
+                                AccountEntityMapper.domainToEntityWithoutTransactions(transaction.getAccountFrom())
                 )
                 .accountTo(
                         transaction.getAccountTo()==null?
                                 null:
-                                AccountEntityMapper.domainToEntity(transaction.getAccountTo())
+                                AccountEntityMapper.domainToEntityWithoutTransactions(transaction.getAccountTo())
                 )
                 .category(
                         CategoryEntityMapper.domainToEntity(transaction.getCategory())
@@ -51,18 +51,18 @@ public class TransactionEntityMapper {
                 .account(
                         entity.getAccount()==null?
                                 null:
-                                AccountEntityMapper.entityToDomain(entity.getAccount())
+                                AccountEntityMapper.entityToDomainWithoutTransactions(entity.getAccount())
                 )
                 .transactionType(entity.getTransactionType())
                 .accountFrom(
                         entity.getAccountFrom()==null?
                                 null:
-                                AccountEntityMapper.entityToDomain(entity.getAccountFrom())
+                                AccountEntityMapper.entityToDomainWithoutTransactions(entity.getAccountFrom())
                 )
                 .accountTo(
                         entity.getAccountTo()==null?
                                 null:
-                                AccountEntityMapper.entityToDomain(entity.getAccountTo())
+                                AccountEntityMapper.entityToDomainWithoutTransactions(entity.getAccountTo())
                 )
                 .category(
                         CategoryEntityMapper.entityToDomain(entity.getCategory())

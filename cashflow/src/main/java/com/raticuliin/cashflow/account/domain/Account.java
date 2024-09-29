@@ -1,12 +1,12 @@
 package com.raticuliin.cashflow.account.domain;
 
 import com.raticuliin.cashflow.bank.domain.Bank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import com.raticuliin.cashflow.transaction.domain.Transaction;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -20,6 +20,10 @@ public class Account {
     private LocalDateTime date;
     private Bank bank;
     private AccountType accountType;
+
+    private List<Transaction> transactions;
+    private List<Transaction> incomingTransfers;
+    private List<Transaction> outgoingTransfers;
 
 
 }

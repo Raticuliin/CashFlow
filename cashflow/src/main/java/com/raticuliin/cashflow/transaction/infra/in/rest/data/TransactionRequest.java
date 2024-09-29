@@ -9,6 +9,7 @@ import org.antlr.v4.runtime.misc.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -22,7 +23,7 @@ public class TransactionRequest {
     @NotNull
     private Boolean isRecurring;
     private LocalDate recurrenceDate;
-    private LocalDate transactionDate;
+    private LocalDateTime transactionDate;
     private Long accountId;
     @NotNull
     private TransactionType transactionType;

@@ -17,6 +17,7 @@ public class TransactionRestMapper {
                 .value(request.getValue())
                 .isRecurring(request.getIsRecurring())
                 .recurrenceDate(request.getRecurrenceDate())
+                .transactionDate(request.getTransactionDate())
                 .transactionType(request.getTransactionType())
                 .account(
                         request.getAccountId()==null?
@@ -34,10 +35,10 @@ public class TransactionRestMapper {
                                         .build()
                 )
                 .accountTo(
-                        request.getAccountId()==null?
+                        request.getAccountToId()==null?
                                 null:
                                 Account.builder()
-                                        .id(request.getAccountId())
+                                        .id(request.getAccountToId())
                                         .build()
                 )
                 .category(

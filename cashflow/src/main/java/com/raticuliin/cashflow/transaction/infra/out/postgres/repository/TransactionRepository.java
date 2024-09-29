@@ -1,6 +1,7 @@
 package com.raticuliin.cashflow.transaction.infra.out.postgres.repository;
 
 import com.raticuliin.cashflow.category.domain.Category;
+import com.raticuliin.cashflow.category.infra.out.postgres.mapper.CategoryEntityMapper;
 import com.raticuliin.cashflow.transaction.app.out.ITransactionRepository;
 import com.raticuliin.cashflow.transaction.domain.Transaction;
 import com.raticuliin.cashflow.transaction.domain.TransactionType;
@@ -10,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,12 +47,12 @@ public class TransactionRepository implements ITransactionRepository {
             TransactionType transactionType,
             Category category,
             Boolean isRecurring,
-            LocalDate dateFrom,
-            LocalDate dateTo) {
+            LocalDateTime dateFrom,
+            LocalDateTime dateTo) {
 
         return jpaTransactionRepository.findByFilter(
                 transactionType,
-                category,
+                        CategoryEntityMapper.domainToEntity(category),
                 isRecurring,
                 dateFrom,
                 dateTo)

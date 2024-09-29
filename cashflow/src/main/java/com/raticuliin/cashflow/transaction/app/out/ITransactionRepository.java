@@ -5,6 +5,7 @@ import com.raticuliin.cashflow.transaction.domain.Transaction;
 import com.raticuliin.cashflow.transaction.domain.TransactionType;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,8 +18,8 @@ public interface ITransactionRepository {
     List<Transaction> getTransactionsByFilter(TransactionType transactionType,
                                               Category category,
                                               Boolean isRecurring,
-                                              LocalDate dateFrom,
-                                              LocalDate dateTo);
+                                              LocalDateTime dateFrom,
+                                              LocalDateTime dateTo);
 
     Transaction updateTransaction(Transaction transaction);
 

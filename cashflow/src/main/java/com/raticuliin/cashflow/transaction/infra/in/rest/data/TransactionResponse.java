@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -22,11 +23,11 @@ public class TransactionResponse {
     private BigDecimal value;
     private Boolean isRecurring;
     private LocalDate recurrenceDate;
-    private LocalDate transactionDate;
+    private LocalDateTime transactionDate;
     private AccountResponse account;
     private TransactionType transactionType;
-    private AccountResponse accountTo;
     private AccountResponse accountFrom;
+    private AccountResponse accountTo;
     private CategoryResponse category;
 
 }

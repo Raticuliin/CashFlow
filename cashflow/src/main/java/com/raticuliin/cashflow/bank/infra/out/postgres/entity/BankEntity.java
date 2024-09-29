@@ -1,5 +1,6 @@
 package com.raticuliin.cashflow.bank.infra.out.postgres.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.raticuliin.cashflow.account.infra.out.postgres.entity.AccountEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,7 @@ public class BankEntity {
     private String name;
 
     @OneToMany(mappedBy = "bankEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
     private Set<AccountEntity> accounts;
 
 

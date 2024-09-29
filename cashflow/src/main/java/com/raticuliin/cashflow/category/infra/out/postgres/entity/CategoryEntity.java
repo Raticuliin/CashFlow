@@ -1,5 +1,6 @@
 package com.raticuliin.cashflow.category.infra.out.postgres.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.raticuliin.cashflow.transaction.infra.out.postgres.entity.TransactionEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,7 @@ public class CategoryEntity {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonBackReference
     private List<TransactionEntity> transactions;
 
 }

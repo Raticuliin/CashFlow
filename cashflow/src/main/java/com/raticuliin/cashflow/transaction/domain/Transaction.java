@@ -2,12 +2,11 @@ package com.raticuliin.cashflow.transaction.domain;
 
 import com.raticuliin.cashflow.account.domain.Account;
 import com.raticuliin.cashflow.category.domain.Category;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -19,7 +18,7 @@ public class Transaction {
     private BigDecimal value;
     private Boolean isRecurring;
     private LocalDate recurrenceDate;
-    private LocalDate transactionDate;
+    private LocalDateTime transactionDate;
     private Account account;
     private TransactionType transactionType;
     private Account accountTo;

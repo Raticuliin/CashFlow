@@ -1,6 +1,7 @@
 package com.raticuliin.cashflow.transaction.app.in;
 
 import com.raticuliin.cashflow.account.app.in.AccountService;
+import com.raticuliin.cashflow.account.domain.Account;
 import com.raticuliin.cashflow.category.app.in.CategoryService;
 import com.raticuliin.cashflow.category.domain.Category;
 import com.raticuliin.cashflow.transaction.app.in.usecase.*;
@@ -36,19 +37,11 @@ public class TransactionService implements
 
         transaction.setCategory(category);
 
-        if (transaction.getCategory() != null)
-            transaction.setAccount(accountService.getAccountById(transaction.getAccount().getId()));
+        if (transaction.getTransactionType() == TransactionType.TRANSFER) {
+            return transactionRepository.createTransaction(manageCreateTransfer(transaction));
+        }
 
-        if (transaction.getAccountFrom() != null)
-            transaction.setAccountFrom(accountService.getAccountById(transaction.getAccountFrom().getId()));
-
-        if (transaction.getAccountTo() != null)
-            transaction.setAccountTo(accountService.getAccountById(transaction.getAccountTo().getId()));
-
-        if (transaction.getTransactionType() != TransactionType.EXPENSE)
-            transaction.setValue(transaction.getValue().negate());
-
-        return transactionRepository.createTransaction(transaction);
+        return transactionRepository.createTransaction(manageCreateIncomeExpense(transaction));
 
     }
 
@@ -68,8 +61,23 @@ public class TransactionService implements
     }
 
     @Override
-    public List<Transaction> getTransactionByFilter(TransactionType transactionType, Long categoryId, Boolean isRecurring, LocalDate dateFrom, LocalDate dateTo) throws Exception {
-        return transactionRepository.getTransactionsByFilter(transactionType, categoryService.getCategoryById(categoryId), isRecurring, dateFrom, dateTo);
+    public List<Transaction> getTransactionByFilter(
+            TransactionType transactionType,
+            Long categoryId,
+            Boolean isRecurring,
+            LocalDate dateFrom,
+            LocalDate dateTo) throws Exception {
+
+        return transactionRepository.getTransactionsByFilter(
+                transactionType,
+                categoryService.getCategoryById(categoryId),
+                isRecurring,
+                dateFrom==null?
+                        null:
+                        dateFrom.atStartOfDay(),
+                dateTo==null?
+                        null:
+                        dateTo.atStartOfDay());
     }
 
     @Override
@@ -127,9 +135,88 @@ public class TransactionService implements
 
         Transaction transaction = getTransactionById(id);
 
+        if (transaction.getTransactionType() == TransactionType.TRANSFER) {
+            manageDeleteTransfer(transaction);
+
+            transactionRepository.deleteTransaction(id);
+
+            return transaction;
+        }
+
+        manageDeleteIncomeExpense(transaction);
+
         transactionRepository.deleteTransaction(id);
 
         return transaction;
 
+    }
+
+    private Transaction manageCreateIncomeExpense(Transaction transaction) throws Exception {
+
+        if (transaction.getAccount() == null)
+            throw new Exception("Account is required");
+
+        Account account = accountService.getAccountById(transaction.getAccount().getId());
+
+        if (transaction.getTransactionType() == TransactionType.EXPENSE)
+            transaction.setValue(transaction.getValue().negate());
+
+        account.setBalance(account.getBalance().add(transaction.getValue()));
+
+        accountService.updateAccount(account.getId(), account);
+
+        transaction.setAccount(account);
+
+        return transaction;
+
+    }
+
+    private Transaction manageCreateTransfer(Transaction transaction) throws Exception {
+
+        if (transaction.getAccountFrom() == null)
+            throw new Exception("Source account is required");
+
+        if (transaction.getAccountTo() == null)
+            throw new Exception("Destination account is required");
+
+        Account accountFrom = accountService.getAccountById(transaction.getAccountFrom().getId());
+        Account accountTo = accountService.getAccountById(transaction.getAccountTo().getId());
+
+        accountFrom.setBalance(accountFrom.getBalance().subtract(transaction.getValue()));
+        accountTo.setBalance(accountTo.getBalance().add(transaction.getValue()));
+
+        accountFrom = accountService.updateAccount(accountFrom.getId(), accountFrom);
+        accountTo = accountService.updateAccount(accountTo.getId(), accountTo);
+
+        transaction.setAccountFrom(accountFrom);
+        transaction.setAccountTo(accountTo);
+
+        return transaction;
+    }
+
+    private void manageDeleteIncomeExpense(Transaction transaction) throws Exception {
+
+        Account account = accountService.getAccountById(transaction.getAccount().getId());
+
+        account.setBalance(account.getBalance().subtract(transaction.getValue()));
+
+        account = accountService.updateAccount(account.getId(), account);
+
+        transaction.setAccountFrom(account);
+    }
+
+    private void manageDeleteTransfer(Transaction transaction) throws Exception {
+
+        Account accountFrom = accountService.getAccountById(transaction.getAccountFrom().getId());
+        Account accountTo = accountService.getAccountById(transaction.getAccountTo().getId());
+
+        accountFrom.setBalance(accountFrom.getBalance().add(transaction.getValue()));
+        accountTo.setBalance(accountTo.getBalance().subtract(transaction.getValue()));
+
+        accountFrom = accountService.updateAccount(accountFrom.getId(), accountFrom);
+        accountTo = accountService.updateAccount(accountTo.getId(), accountTo);
+
+        transaction.setAccountFrom(accountFrom);
+        transaction.setAccountTo(accountTo);
     }
 }
