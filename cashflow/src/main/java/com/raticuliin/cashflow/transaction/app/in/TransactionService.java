@@ -11,7 +11,9 @@ import com.raticuliin.cashflow.transaction.domain.TransactionType;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -37,11 +39,20 @@ public class TransactionService implements
 
         transaction.setCategory(category);
 
+        checkRecurrence(transaction);
+
+        if (transaction.getTransactionDate() == null)
+            transaction.setTransactionDate(LocalDateTime.now());
+
         if (transaction.getTransactionType() == TransactionType.TRANSFER) {
-            return transactionRepository.createTransaction(manageCreateTransfer(transaction));
+            addTransferToAccounts(transaction);
+
+            return transactionRepository.createTransaction(transaction);
         }
 
-        return transactionRepository.createTransaction(manageCreateIncomeExpense(transaction));
+        addTransactionToAccount(transaction);
+
+        return transactionRepository.createTransaction(transaction);
 
     }
 
@@ -88,11 +99,9 @@ public class TransactionService implements
 
         transaction.setId(id);
 
+        // Campos no problematicos:
         if (transaction.getDescription() == null)
             transaction.setDescription(savedTransaction.getDescription());
-
-        if (transaction.getValue() == null)
-            transaction.setValue(savedTransaction.getValue());
 
         if (transaction.getIsRecurring() == null)
             transaction.setIsRecurring(savedTransaction.getIsRecurring());
@@ -100,31 +109,61 @@ public class TransactionService implements
         if (transaction.getRecurrenceDate() == null)
             transaction.setRecurrenceDate(savedTransaction.getRecurrenceDate());
 
-        if (transaction.getTransactionType() == null)
-            transaction.setTransactionType(savedTransaction.getTransactionType());
+        checkRecurrence(transaction);
 
-        if (transaction.getAccount() == null)
-            transaction.setAccount(savedTransaction.getAccount());
-        else
-            transaction.setAccount(accountService.getAccountById(transaction.getAccount().getId()));
-
-        if (transaction.getTransactionType() == null)
-            transaction.setTransactionType(savedTransaction.getTransactionType());
-
-        if (transaction.getAccountFrom() == null)
-            transaction.setAccountFrom(savedTransaction.getAccountFrom());
-        else
-            transaction.setAccountFrom(accountService.getAccountById(transaction.getAccountFrom().getId()));
-
-        if (transaction.getAccountTo() == null)
-            transaction.setAccountTo(savedTransaction.getAccountTo());
-        else
-            transaction.setAccountTo(accountService.getAccountById(transaction.getAccountTo().getId()));
+        if (transaction.getTransactionDate() == null)
+            transaction.setTransactionDate(savedTransaction.getTransactionDate());
 
         if (transaction.getCategory() == null)
             transaction.setCategory(savedTransaction.getCategory());
-        else
-            transaction.setCategory(categoryService.getCategoryById(transaction.getCategory().getId()));
+
+        if (transaction.getValue() == null)
+            transaction.setValue(savedTransaction.getValue());
+
+        // Campos problematicos
+        if (transaction.getTransactionType() == null)
+            transaction.setTransactionType(savedTransaction.getTransactionType());
+
+        if (transaction.getTransactionType() == TransactionType.TRANSFER) {
+
+            Account accountFrom;
+            Account accountTo;
+
+            // Obtengo los accounts que necesito
+            if (transaction.getAccountFrom() == null)
+                accountFrom = savedTransaction.getAccountFrom();
+            else
+                accountFrom = transaction.getAccountFrom();
+
+            if (transaction.getAccountTo() == null)
+                accountTo = savedTransaction.getAccountTo();
+            else
+                accountTo = transaction.getAccountTo();
+
+            // Borro los registros anteriores
+            removeTransferFromAccounts(transaction);
+
+            // Setteo los nuevos account
+            transaction.setAccountFrom(accountFrom);
+            transaction.setAccountTo(accountTo);
+
+            addTransferToAccounts(transaction);
+
+        } else {
+            Account account;
+
+            if (transaction.getAccount() == null)
+                account = savedTransaction.getAccount();
+            else
+                account = transaction.getAccount();
+
+            removeTransactionFromAccount(transaction);
+
+            transaction.setAccount(account);
+
+            addTransactionToAccount(transaction);
+
+        }
 
         return transactionRepository.updateTransaction(transaction);
 
@@ -136,14 +175,14 @@ public class TransactionService implements
         Transaction transaction = getTransactionById(id);
 
         if (transaction.getTransactionType() == TransactionType.TRANSFER) {
-            manageDeleteTransfer(transaction);
+            removeTransferFromAccounts(transaction);
 
             transactionRepository.deleteTransaction(id);
 
             return transaction;
         }
 
-        manageDeleteIncomeExpense(transaction);
+        removeTransactionFromAccount(transaction);
 
         transactionRepository.deleteTransaction(id);
 
@@ -151,14 +190,23 @@ public class TransactionService implements
 
     }
 
-    private Transaction manageCreateIncomeExpense(Transaction transaction) throws Exception {
+    private void checkRecurrence(Transaction transaction) throws Exception {
+        if (transaction.getIsRecurring())
+            if (transaction.getRecurrenceDate() == null)
+                throw new Exception("Recurrence date cannot be null");
+
+        transaction.setRecurrenceDate(null);
+    }
+
+    private void addTransactionToAccount(Transaction transaction) throws Exception {
 
         if (transaction.getAccount() == null)
             throw new Exception("Account is required");
 
         Account account = accountService.getAccountById(transaction.getAccount().getId());
 
-        if (transaction.getTransactionType() == TransactionType.EXPENSE)
+        if (transaction.getTransactionType() == TransactionType.EXPENSE &&
+            transaction.getValue().compareTo(BigDecimal.ZERO) > 0)
             transaction.setValue(transaction.getValue().negate());
 
         account.setBalance(account.getBalance().add(transaction.getValue()));
@@ -166,12 +214,11 @@ public class TransactionService implements
         accountService.updateAccount(account.getId(), account);
 
         transaction.setAccount(account);
-
-        return transaction;
-
+        transaction.setAccountFrom(null);
+        transaction.setAccountTo(null);
     }
 
-    private Transaction manageCreateTransfer(Transaction transaction) throws Exception {
+    private void addTransferToAccounts(Transaction transaction) throws Exception {
 
         if (transaction.getAccountFrom() == null)
             throw new Exception("Source account is required");
@@ -190,22 +237,19 @@ public class TransactionService implements
 
         transaction.setAccountFrom(accountFrom);
         transaction.setAccountTo(accountTo);
-
-        return transaction;
+        transaction.setAccount(null);
     }
 
-    private void manageDeleteIncomeExpense(Transaction transaction) throws Exception {
+    private void removeTransactionFromAccount(Transaction transaction) throws Exception {
 
         Account account = accountService.getAccountById(transaction.getAccount().getId());
 
         account.setBalance(account.getBalance().subtract(transaction.getValue()));
 
-        account = accountService.updateAccount(account.getId(), account);
-
-        transaction.setAccountFrom(account);
+        accountService.updateAccount(account.getId(), account);
     }
 
-    private void manageDeleteTransfer(Transaction transaction) throws Exception {
+    private void removeTransferFromAccounts(Transaction transaction) throws Exception {
 
         Account accountFrom = accountService.getAccountById(transaction.getAccountFrom().getId());
         Account accountTo = accountService.getAccountById(transaction.getAccountTo().getId());
@@ -213,10 +257,7 @@ public class TransactionService implements
         accountFrom.setBalance(accountFrom.getBalance().add(transaction.getValue()));
         accountTo.setBalance(accountTo.getBalance().subtract(transaction.getValue()));
 
-        accountFrom = accountService.updateAccount(accountFrom.getId(), accountFrom);
-        accountTo = accountService.updateAccount(accountTo.getId(), accountTo);
-
-        transaction.setAccountFrom(accountFrom);
-        transaction.setAccountTo(accountTo);
+        accountService.updateAccount(accountFrom.getId(), accountFrom);
+        accountService.updateAccount(accountTo.getId(), accountTo);
     }
 }

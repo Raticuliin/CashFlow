@@ -47,7 +47,7 @@ public class AccountEntity {
 
     @OneToMany(
             mappedBy = "account",
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.REMOVE,
             orphanRemoval = true
     )
     @JsonBackReference
@@ -55,7 +55,7 @@ public class AccountEntity {
 
     @OneToMany(
             mappedBy = "accountFrom",
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.REMOVE,
             orphanRemoval = true
     )
     @JsonBackReference
@@ -63,7 +63,7 @@ public class AccountEntity {
 
     @OneToMany(
             mappedBy = "accountTo",
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.REMOVE,
             orphanRemoval = true
     )
     @JsonBackReference
