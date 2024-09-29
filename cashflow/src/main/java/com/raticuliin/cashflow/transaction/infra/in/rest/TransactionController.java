@@ -25,7 +25,7 @@ public class TransactionController {
     private final GetTransactionsByFilterUseCase getTransactionsByFilterUseCase;
 
     private final UpdateTransactionUseCase updateTransactionUseCase;
-    private final DeleteTransactionuseCase deleteTransactionuseCase;
+    private final DeleteTransactionUseCase deleteTransactionUseCase;
 
     @PostMapping("/create")
     public ResponseEntity<?> createTransaction(@RequestBody TransactionRequest request) {
@@ -151,7 +151,7 @@ public class TransactionController {
         try {
 
             response = TransactionRestMapper.domainToResponse(
-                    deleteTransactionuseCase.deleteTransaction(id));
+                    deleteTransactionUseCase.deleteTransaction(id));
 
         } catch (Exception e) {
             return ResponseEntity

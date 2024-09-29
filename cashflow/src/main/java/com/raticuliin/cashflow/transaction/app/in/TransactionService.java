@@ -24,7 +24,7 @@ public class TransactionService implements
         GetTransactionByIdUseCase,
         GetTransactionsByFilterUseCase,
         UpdateTransactionUseCase,
-        DeleteTransactionuseCase {
+        DeleteTransactionUseCase {
 
     private final ITransactionRepository transactionRepository;
 
@@ -120,7 +120,6 @@ public class TransactionService implements
         if (transaction.getValue() == null)
             transaction.setValue(savedTransaction.getValue());
 
-        // Campos problematicos
         if (transaction.getTransactionType() == null)
             transaction.setTransactionType(savedTransaction.getTransactionType());
 
