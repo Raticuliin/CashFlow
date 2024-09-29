@@ -63,20 +63,20 @@ public class TransactionService implements
     public Transaction getTransactionById(Long id) throws Exception {
 
         return transactionRepository.getTransactionById(id)
-                .orElseThrow(() -> new Exception(String.format("No transaction found with ID: ", id)));
+                .orElseThrow(() -> new Exception(String.format("No transaction found with ID: %d", id)));
 
     }
 
     @Override
     public List<Transaction> getTransactionByFilter(TransactionType transactionType, Long categoryId, Boolean isRecurring, LocalDate dateFrom, LocalDate dateTo) throws Exception {
-        return transactionRepository.getTransactionsByFilter(transactionType, categoryId, isRecurring, dateFrom, dateTo);
+        return transactionRepository.getTransactionsByFilter(transactionType, categoryService.getCategoryById(categoryId), isRecurring, dateFrom, dateTo);
     }
 
     @Override
     public Transaction updateTransaction(Long id, Transaction transaction) throws Exception {
 
         Transaction savedTransaction = transactionRepository.getTransactionById(id)
-                .orElseThrow(() -> new Exception(String.format("No transaction found with ID: ", id)));
+                .orElseThrow(() -> new Exception(String.format("No transaction found with ID: %d", id)));
 
         transaction.setId(id);
 

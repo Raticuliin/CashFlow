@@ -1,5 +1,6 @@
 package com.raticuliin.cashflow.transaction.infra.out.postgres.repository;
 
+import com.raticuliin.cashflow.category.domain.Category;
 import com.raticuliin.cashflow.transaction.app.out.ITransactionRepository;
 import com.raticuliin.cashflow.transaction.domain.Transaction;
 import com.raticuliin.cashflow.transaction.domain.TransactionType;
@@ -42,14 +43,14 @@ public class TransactionRepository implements ITransactionRepository {
     @Override
     public List<Transaction> getTransactionsByFilter(
             TransactionType transactionType,
-            Long categoryId,
+            Category category,
             Boolean isRecurring,
             LocalDate dateFrom,
             LocalDate dateTo) {
 
         return jpaTransactionRepository.findByFilter(
                 transactionType,
-                categoryId,
+                category,
                 isRecurring,
                 dateFrom,
                 dateTo)

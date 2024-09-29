@@ -1,5 +1,6 @@
 package com.raticuliin.cashflow.transaction.app.out;
 
+import com.raticuliin.cashflow.category.domain.Category;
 import com.raticuliin.cashflow.transaction.domain.Transaction;
 import com.raticuliin.cashflow.transaction.domain.TransactionType;
 
@@ -14,7 +15,7 @@ public interface ITransactionRepository {
     List<Transaction> getAllTransactions();
     Optional<Transaction> getTransactionById(Long id);
     List<Transaction> getTransactionsByFilter(TransactionType transactionType,
-                                              Long categoryId,
+                                              Category category,
                                               Boolean isRecurring,
                                               LocalDate dateFrom,
                                               LocalDate dateTo);
