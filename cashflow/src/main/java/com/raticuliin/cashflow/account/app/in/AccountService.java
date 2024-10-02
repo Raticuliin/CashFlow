@@ -9,6 +9,7 @@ import com.raticuliin.cashflow.bank.domain.Bank;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,7 +21,8 @@ public class AccountService implements
         GetAccountByIdUseCase,
         GetAccountsByFilterUseCase,
         UpdateAccountUseCase,
-        DeleteAccountUseCase {
+        DeleteAccountUseCase,
+        GetTotalBalanceUseCase {
 
     private final IAccountRepository accountRepository;
 
@@ -89,5 +91,12 @@ public class AccountService implements
         accountRepository.deleteAccount(id);
 
         return account;
+    }
+
+    @Override
+    public BigDecimal getTotalBalance(List<Account> accountList) {
+
+        return accountList.stream().map(Account::getBalance).reduce(BigDecimal.ZERO, BigDecimal::add);
+
     }
 }

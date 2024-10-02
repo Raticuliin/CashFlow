@@ -1,0 +1,6 @@
+.graph {
+    background-color: #616161;
+    flex-grow: 3;
+    flex-basis: 0;
+    border-radius: 1rem;
+}

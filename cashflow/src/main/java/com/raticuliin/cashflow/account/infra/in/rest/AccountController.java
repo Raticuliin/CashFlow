@@ -1,9 +1,12 @@
 package com.raticuliin.cashflow.account.infra.in.rest;
 
+import com.raticuliin.cashflow.account.app.in.AccountService;
 import com.raticuliin.cashflow.account.app.in.usecase.*;
+import com.raticuliin.cashflow.account.domain.Account;
 import com.raticuliin.cashflow.account.domain.AccountType;
 import com.raticuliin.cashflow.account.infra.in.rest.data.AccountRequest;
 import com.raticuliin.cashflow.account.infra.in.rest.data.AccountResponse;
+import com.raticuliin.cashflow.account.infra.in.rest.data.AccountResumeListResponse;
 import com.raticuliin.cashflow.account.infra.in.rest.mapper.AccountRestMapper;
 import com.raticuliin.cashflow.utils.Utils;
 import lombok.AllArgsConstructor;
@@ -11,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -29,6 +33,8 @@ public class AccountController {
     private final UpdateAccountUseCase updateAccountUseCase;
 
     private final DeleteAccountUseCase deleteAccountUseCase;
+
+    private final GetTotalBalanceUseCase getTotalBalanceUseCase;
 
     @PostMapping("/create")
     public ResponseEntity<?> createAccount(@RequestBody AccountRequest accountRequest) {
@@ -52,20 +58,30 @@ public class AccountController {
     @GetMapping("/all")
     public ResponseEntity<?> getAllAccounts() {
 
-        List<AccountResponse> accountResponseList;
+        AccountResumeListResponse accountResumeListResponse;
 
         try {
-            accountResponseList = getAllAccountsUseCase.getAllAccounts()
+
+            List<AccountResponse> accountResponseList;
+            List<Account> response = getAllAccountsUseCase.getAllAccounts();
+
+            accountResponseList = response
                     .stream()
                     .map(AccountRestMapper::domainToResponse)
                     .toList();
+
+            accountResumeListResponse = AccountResumeListResponse.builder()
+                    .totalBalance(getTotalBalanceUseCase.getTotalBalance(response))
+                    .accountList(accountResponseList)
+                    .build();
+
         } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Utils.getErrorResponse(e, HttpStatus.INTERNAL_SERVER_ERROR));
         }
 
-        return ResponseEntity.ok(accountResponseList);
+        return ResponseEntity.ok(accountResumeListResponse);
 
     }
 
