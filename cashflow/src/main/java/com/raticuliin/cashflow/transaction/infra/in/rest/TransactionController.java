@@ -1,7 +1,12 @@
 package com.raticuliin.cashflow.transaction.infra.in.rest;
 
+import com.raticuliin.cashflow.account.app.in.usecase.GetAllAccountsUseCase;
+import com.raticuliin.cashflow.account.app.in.usecase.GetTotalBalanceUseCase;
+import com.raticuliin.cashflow.account.domain.AccountResume;
 import com.raticuliin.cashflow.transaction.app.in.usecase.*;
+import com.raticuliin.cashflow.transaction.domain.Transaction;
 import com.raticuliin.cashflow.transaction.domain.TransactionType;
+import com.raticuliin.cashflow.transaction.infra.in.rest.data.TransactionHistoryResponse;
 import com.raticuliin.cashflow.transaction.infra.in.rest.data.TransactionRequest;
 import com.raticuliin.cashflow.transaction.infra.in.rest.data.TransactionResponse;
 import com.raticuliin.cashflow.transaction.infra.in.rest.mapper.TransactionRestMapper;
@@ -23,9 +28,12 @@ public class TransactionController {
     private final GetAllTransactionsUseCase getAllTransactionsUseCase;
     private final GetTransactionByIdUseCase getTransactionByIdUseCase;
     private final GetTransactionsByFilterUseCase getTransactionsByFilterUseCase;
-
     private final UpdateTransactionUseCase updateTransactionUseCase;
     private final DeleteTransactionUseCase deleteTransactionUseCase;
+    private final GetTransactionHistory getTransactionHistoryUseCase;
+
+    private final GetAllAccountsUseCase getAllAccountsUseCase;
+    private final GetTotalBalanceUseCase getTotalBalanceUseCase;
 
     @PostMapping("/create")
     public ResponseEntity<?> createTransaction(@RequestBody TransactionRequest request) {
@@ -87,7 +95,7 @@ public class TransactionController {
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<?> getAccountsByFilter(
+    public ResponseEntity<?> getTransactionsByFilter(
             @RequestParam(
                     required = false, name = "transactionType") TransactionType transactionType,
             @RequestParam(
@@ -118,6 +126,46 @@ public class TransactionController {
         }
 
         return ResponseEntity.ok(response);
+
+    }
+
+    @GetMapping("/history")
+    public ResponseEntity<?> getTransactionHistory(
+            @RequestParam(
+                    name = "days") Integer daysFrom) {
+
+        try {
+
+            List<Transaction> transactionList = getTransactionsByFilterUseCase.getTransactionByFilter(
+                    null,
+                    null,
+                    null,
+                    LocalDate.now().minusDays(daysFrom),
+                    LocalDate.now().plusDays(1)
+            );
+
+            List<AccountResume> accountList = getAllAccountsUseCase.getAllAccounts().stream().map(account -> AccountResume.builder()
+                    .id(account.getId())
+                    .name(account.getName())
+                    .balance(account.getBalance())
+                    .build()).toList();
+
+            TransactionHistoryResponse transactionHistoryResponse = TransactionHistoryResponse.builder()
+                    .totalHistory(getTransactionHistoryUseCase.getTransactionHistory(transactionList, getTotalBalanceUseCase.getTotalBalance(accountList)))
+                    .accountHistoryList(
+                            accountList.stream().map(
+                                    account -> getTransactionHistoryUseCase.getTransactionHistoryByAccount(transactionList, account)
+                            ).toList()
+                    )
+                    .build();
+
+            return ResponseEntity.ok(transactionHistoryResponse);
+
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Utils.getErrorResponse(e, HttpStatus.INTERNAL_SERVER_ERROR));
+        }
 
     }
 

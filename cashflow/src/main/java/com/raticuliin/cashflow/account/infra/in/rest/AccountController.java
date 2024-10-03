@@ -1,12 +1,12 @@
 package com.raticuliin.cashflow.account.infra.in.rest;
 
-import com.raticuliin.cashflow.account.app.in.AccountService;
 import com.raticuliin.cashflow.account.app.in.usecase.*;
-import com.raticuliin.cashflow.account.domain.Account;
+import com.raticuliin.cashflow.account.domain.AccountResume;
 import com.raticuliin.cashflow.account.domain.AccountType;
 import com.raticuliin.cashflow.account.infra.in.rest.data.AccountRequest;
 import com.raticuliin.cashflow.account.infra.in.rest.data.AccountResponse;
 import com.raticuliin.cashflow.account.infra.in.rest.data.AccountResumeListResponse;
+import com.raticuliin.cashflow.account.infra.in.rest.data.AccountResumeResponse;
 import com.raticuliin.cashflow.account.infra.in.rest.mapper.AccountRestMapper;
 import com.raticuliin.cashflow.utils.Utils;
 import lombok.AllArgsConstructor;
@@ -58,22 +58,15 @@ public class AccountController {
     @GetMapping("/all")
     public ResponseEntity<?> getAllAccounts() {
 
-        AccountResumeListResponse accountResumeListResponse;
+        List<AccountResponse> accountResponseList;
 
         try {
 
-            List<AccountResponse> accountResponseList;
-            List<Account> response = getAllAccountsUseCase.getAllAccounts();
 
-            accountResponseList = response
+            accountResponseList = getAllAccountsUseCase.getAllAccounts()
                     .stream()
                     .map(AccountRestMapper::domainToResponse)
                     .toList();
-
-            accountResumeListResponse = AccountResumeListResponse.builder()
-                    .totalBalance(getTotalBalanceUseCase.getTotalBalance(response))
-                    .accountList(accountResponseList)
-                    .build();
 
         } catch (Exception e) {
             return ResponseEntity
@@ -81,8 +74,47 @@ public class AccountController {
                     .body(Utils.getErrorResponse(e, HttpStatus.INTERNAL_SERVER_ERROR));
         }
 
-        return ResponseEntity.ok(accountResumeListResponse);
+        return ResponseEntity.ok(accountResponseList);
 
+    }
+
+    @GetMapping("/resume")
+    public ResponseEntity<?> getAccountResume(
+            @RequestParam(
+                    required = false, name = "type") AccountType type,
+            @RequestParam(
+                    required = false, name = "bank") Long bankId) {
+
+        try {
+
+            List<AccountResume> accountList = getAccountsByFilterUseCase.getAccountsByFilter(type, bankId).stream().map(
+                    account -> AccountResume.builder()
+                            .id(account.getId())
+                            .balance(account.getBalance())
+                            .name(account.getName())
+                            .build()
+            ).toList();
+            BigDecimal totalBalance = getTotalBalanceUseCase.getTotalBalance(accountList);
+
+            AccountResumeListResponse response = AccountResumeListResponse.builder()
+                    .totalBalance(totalBalance)
+                    .accountList(
+                            accountList.stream().map(account ->
+                                    AccountResumeResponse.builder()
+                                            .id(account.getId())
+                                            .name(account.getName())
+                                            .balance(account.getBalance())
+                                            .build()
+                            ).toList()
+                    ).build();
+
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Utils.getErrorResponse(e, HttpStatus.INTERNAL_SERVER_ERROR));
+        }
     }
 
     @GetMapping("/{id}")
@@ -107,8 +139,6 @@ public class AccountController {
     @GetMapping("/filter")
     public ResponseEntity<?> getAccountsByFilter(
             @RequestParam(
-                    required = false, name = "name") String name,
-            @RequestParam(
                     required = false, name = "type") AccountType type,
             @RequestParam(
                     required = false, name = "bank") Long bankId) {
@@ -116,7 +146,7 @@ public class AccountController {
         List<AccountResponse> accountResponseList;
 
         try {
-            accountResponseList = getAccountsByFilterUseCase.getAccountsByFilter(name, type, bankId)
+            accountResponseList = getAccountsByFilterUseCase.getAccountsByFilter(type, bankId)
                     .stream()
                     .map(AccountRestMapper::domainToResponse)
                     .toList();

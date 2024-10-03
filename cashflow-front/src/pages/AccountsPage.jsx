@@ -4,8 +4,6 @@ import PropTypes from "prop-types";
 
 export function AccountsPage({totalBalanceAccounts, accountList}) {
 
-    console.log(accountList)
-
     return (
         <>
             <Graph />

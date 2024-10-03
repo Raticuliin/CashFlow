@@ -3,9 +3,6 @@ import PropTypes from "prop-types";
 
 export function DataItem({title, totalBalance, dataList}) {
 
-    console.log(totalBalance);
-    console.log(dataList)
-
     return (
         <section className="data-item">
             <header className="data-item__header">

@@ -51,7 +51,9 @@ public class TransactionRepository implements ITransactionRepository {
 
         return jpaTransactionRepository.findByFilter(
                 transactionType,
-                        CategoryEntityMapper.domainToEntity(category),
+                        category==null?
+                                null:
+                                CategoryEntityMapper.domainToEntity(category),
                 isRecurring,
                 dateFrom,
                 dateTo)

@@ -51,12 +51,13 @@ public class AccountRepository implements IAccountRepository {
     }
 
     @Override
-    public List<Account> getAccountsByFilter(String name, AccountType type, Bank bank) {
+    public List<Account> getAccountsByFilter(AccountType type, Bank bank) {
 
         return jpaAccountRepository.findByFilter(
-                    name,
                     type,
-                    BankEntityMapper.domainToEntity(bank))
+                    bank==null?
+                            null:
+                            BankEntityMapper.domainToEntity(bank))
                 .stream()
                 .map(AccountEntityMapper::entityToDomain)
                 .toList();

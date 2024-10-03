@@ -16,11 +16,9 @@ public interface JpaAccountRepository extends JpaRepository<AccountEntity, Long>
 
     @Query(" SELECT a from AccountEntity a " +
                     " WHERE " +
-                    " (:name IS NULL OR LOWER(a.name) LIKE LOWER(CONCAT('%' , :name , '%'))) AND " +
                     " (:accountType IS NULL OR a.accountType = :accountType) AND  " +
                     " (:bank IS NULL OR a.bankEntity = :bank) ")
     List<AccountEntity> findByFilter(
-            @Nullable @Param("name") String name,
             @Nullable @Param("accountType") AccountType accountType,
             @Nullable @Param("bank") BankEntity bank);
 

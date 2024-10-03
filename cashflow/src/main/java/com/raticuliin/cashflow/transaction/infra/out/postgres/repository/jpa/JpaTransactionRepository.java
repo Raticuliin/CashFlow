@@ -19,7 +19,8 @@ public interface JpaTransactionRepository extends JpaRepository<TransactionEntit
             " (:category IS NULL OR t.category = :category) AND " +
             " (:isRecurring IS NULL OR t.isRecurring = :isRecurring) AND " +
             " (cast(:dateFrom as localdatetime) IS NULL OR t.transactionDate >= :dateFrom) AND " +
-            " (cast(:dateTo as localdatetime) IS NULL OR t.transactionDate <= :dateTo) ")
+            " (cast(:dateTo as localdatetime) IS NULL OR t.transactionDate <= :dateTo) " +
+            " ORDER BY t.transactionDate DESC ")
             List<TransactionEntity> findByFilter(
             @Nullable @Param("transactionType") TransactionType transactionType,
             @Nullable @Param("category") CategoryEntity category,

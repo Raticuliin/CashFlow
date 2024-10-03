@@ -6,7 +6,7 @@ import {AccountsPage} from "./pages/AccountsPage.jsx";
 import {MovementsPage} from "./pages/MovementsPage.jsx";
 import {InvestmentsPage} from "./pages/InvestmentsPage.jsx";
 import {useEffect, useState} from "react";
-import {getAllAccounts} from "./services/accountsApi.js";
+import {getAccountsResume} from "./services/accountsApi.js";
 
 export function App() {
 
@@ -17,9 +17,13 @@ export function App() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        const fetchData = async () => {
+            await fetchAccounts();
+        };
+
         const fetchAccounts = async () => {
             try {
-                const data = await getAllAccounts();
+                const data = await getAccountsResume();
 
                 setAccountList(data.accountList);
                 setAccountBalance(data.totalBalance);
@@ -32,7 +36,7 @@ export function App() {
             }
         };
 
-        fetchAccounts();
+        fetchData();
     }, []);
 
     if (loading) return <p>Cargando...</p>

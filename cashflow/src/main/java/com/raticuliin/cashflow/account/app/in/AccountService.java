@@ -3,6 +3,7 @@ package com.raticuliin.cashflow.account.app.in;
 import com.raticuliin.cashflow.account.app.in.usecase.*;
 import com.raticuliin.cashflow.account.app.out.IAccountRepository;
 import com.raticuliin.cashflow.account.domain.Account;
+import com.raticuliin.cashflow.account.domain.AccountResume;
 import com.raticuliin.cashflow.account.domain.AccountType;
 import com.raticuliin.cashflow.bank.app.in.BankService;
 import com.raticuliin.cashflow.bank.domain.Bank;
@@ -55,8 +56,13 @@ public class AccountService implements
     }
 
     @Override
-    public List<Account> getAccountsByFilter(String name, AccountType type, Long bankId) throws Exception {
-        return accountRepository.getAccountsByFilter(name, type, bankService.getBankById(bankId));
+    public List<Account> getAccountsByFilter(AccountType type, Long bankId) throws Exception {
+        return accountRepository.getAccountsByFilter(
+                type,
+                bankId==null?
+                        null:
+                        bankService.getBankById(bankId)
+        );
 
     }
 
@@ -94,9 +100,11 @@ public class AccountService implements
     }
 
     @Override
-    public BigDecimal getTotalBalance(List<Account> accountList) {
+    public BigDecimal getTotalBalance(List<AccountResume> accountList) {
 
-        return accountList.stream().map(Account::getBalance).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return accountList.stream().map(AccountResume::getBalance).reduce(BigDecimal.ZERO, BigDecimal::add);
 
     }
+
+
 }

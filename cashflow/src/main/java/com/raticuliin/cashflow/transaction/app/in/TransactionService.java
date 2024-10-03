@@ -2,18 +2,19 @@ package com.raticuliin.cashflow.transaction.app.in;
 
 import com.raticuliin.cashflow.account.app.in.AccountService;
 import com.raticuliin.cashflow.account.domain.Account;
+import com.raticuliin.cashflow.account.domain.AccountResume;
 import com.raticuliin.cashflow.category.app.in.CategoryService;
 import com.raticuliin.cashflow.category.domain.Category;
 import com.raticuliin.cashflow.transaction.app.in.usecase.*;
 import com.raticuliin.cashflow.transaction.app.out.ITransactionRepository;
-import com.raticuliin.cashflow.transaction.domain.Transaction;
-import com.raticuliin.cashflow.transaction.domain.TransactionType;
+import com.raticuliin.cashflow.transaction.domain.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,7 +25,9 @@ public class TransactionService implements
         GetTransactionByIdUseCase,
         GetTransactionsByFilterUseCase,
         UpdateTransactionUseCase,
-        DeleteTransactionUseCase {
+        DeleteTransactionUseCase,
+
+        GetTransactionHistory{
 
     private final ITransactionRepository transactionRepository;
 
@@ -81,7 +84,9 @@ public class TransactionService implements
 
         return transactionRepository.getTransactionsByFilter(
                 transactionType,
-                categoryService.getCategoryById(categoryId),
+                categoryId==null?
+                        null:
+                        categoryService.getCategoryById(categoryId),
                 isRecurring,
                 dateFrom==null?
                         null:
@@ -263,5 +268,44 @@ public class TransactionService implements
 
         accountService.updateAccount(accountFrom.getId(), accountFrom);
         accountService.updateAccount(accountTo.getId(), accountTo);
+    }
+
+    @Override
+    public TransactionHistory getTransactionHistory(List<Transaction> transactionList, BigDecimal balance) {
+
+        List<TransactionHistoryInfo> transactionHistoryInfoList = new ArrayList<>();
+        BigDecimal variableBalance = new BigDecimal(String.valueOf(balance));
+
+        for (Transaction transaction : transactionList) {
+
+            variableBalance = variableBalance.subtract(transaction.getValue());
+
+            TransactionHistoryInfo transactionHistoryInfo = TransactionHistoryInfo.builder()
+                    .transactionId(transaction.getId())
+                    .transactionDate(transaction.getTransactionDate().toLocalDate())
+                    .amount(transaction.getValue())
+                    .balance(variableBalance)
+                    .build();
+            transactionHistoryInfoList.add(transactionHistoryInfo);
+        }
+
+        return TransactionHistory.builder()
+                .totalBalance(balance)
+                .transactionHistoryInfoList(transactionHistoryInfoList)
+                .build();
+    }
+
+    @Override
+    public TransactionHistoryByAccount getTransactionHistoryByAccount(List<Transaction> transactionList, AccountResume account) {
+
+        transactionList = transactionList.stream()
+                .filter(transaction ->
+                        transaction.getAccount().getId().equals(account.getId()))
+                .toList();
+
+        return TransactionHistoryByAccount.builder()
+                .transactionHistory(getTransactionHistory(transactionList, account.getBalance()))
+                .account(account)
+                .build();
     }
 }

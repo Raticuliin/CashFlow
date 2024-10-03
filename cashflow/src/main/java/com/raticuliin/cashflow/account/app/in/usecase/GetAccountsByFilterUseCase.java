@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface GetAccountsByFilterUseCase {
 
-    List<Account> getAccountsByFilter(String name, AccountType type, Long bankId) throws Exception;
+    List<Account> getAccountsByFilter(AccountType type, Long bankId) throws Exception;
 
 }

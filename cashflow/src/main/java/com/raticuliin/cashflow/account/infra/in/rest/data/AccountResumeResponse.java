@@ -6,15 +6,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountResumeListResponse {
+public class AccountResumeResponse {
 
-    private BigDecimal totalBalance;
-    private List<AccountResumeResponse> accountList;
+    private Long id;
+    private String name;
+    private BigDecimal balance;
 
 }
