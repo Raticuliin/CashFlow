@@ -1,61 +1,44 @@
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import {Navbar} from "./components/common/Navbar.jsx";
-
+import {AccountPage} from "./pages/AccountPage.jsx";
+import {Navbar} from "./components/Navbar.jsx";
+import {Route, Routes} from "react-router-dom";
 import {HomePage} from "./pages/HomePage.jsx";
-import {AccountsPage} from "./pages/AccountsPage.jsx";
-import {MovementsPage} from "./pages/MovementsPage.jsx";
-import {InvestmentsPage} from "./pages/InvestmentsPage.jsx";
-import {useEffect, useState} from "react";
-import {getAccountsResume} from "./services/accountsApi.js";
+import {InvestmentPage} from "./pages/InvestmentPage.jsx";
+import {MovementPage} from "./pages/MovementPage.jsx";
 
 export function App() {
 
-    const [accountList, setAccountList] = useState([]);
-    const [accountBalance, setAccountBalance] = useState(0);
+    const navbarItems =
+        [
+            {
+                name: "Inicio",
+                link: "/",
+            },
+            {
+                name: "Cuentas",
+                link: "/accounts",
+            },
+            {
+                name: "Inversiones",
+                link: "/investments",
+            },
+            {
+                name: "Movimientos",
+                link: "/movements",
+            },
+        ];
 
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            await fetchAccounts();
-        };
-
-        const fetchAccounts = async () => {
-            try {
-                const data = await getAccountsResume();
-
-                setAccountList(data.accountList);
-                setAccountBalance(data.totalBalance);
-
-                console.log(data.accountList);
-            } catch (error) {
-                setError(error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    if (loading) return <p>Cargando...</p>
-    if (error) return <p>Error: {error.message}</p>;
+    console.log(navbarItems);
 
     return (
-        <Router>
-            <header>
-               <Navbar />
-            </header>
-            <main>
-                <Routes>
-                    <Route path="/" exact element={<HomePage />} />
-                    <Route path="/accounts" element={<AccountsPage totalBalanceAccounts={accountBalance} accountList={accountList} />}/>
-                    <Route path="/investments" element={<InvestmentsPage />} />
-                    <Route path="/movements" element={<MovementsPage />} />
-                </Routes>
-            </main>
+        <>
+            <Navbar navbarItems={navbarItems}/>
+            <Routes>
+                <Route path="/" element={<HomePage />}/>
+                <Route path="/accounts" element={<AccountPage />}/>
+                <Route path="/investments" element={<InvestmentPage />}/>
+                <Route path="/movements" element={<MovementPage />}/>
+            </Routes>
+        </>
+    );
 
-        </Router>
-    )
 }
