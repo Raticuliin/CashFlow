@@ -1,5 +1,8 @@
 export function InvestmentPage() {
     return (
-        <div>INVESTMENTS</div>
+        <main>
+            <section>section</section>
+            <aside>aside</aside>
+        </main>
     );
 }

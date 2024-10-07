@@ -1,6 +1,8 @@
 import {NavLink} from "react-router-dom";
 import PropTypes from "prop-types";
 
+
+
 export function NavbarItem(props) {
 
     const {name, link} = props;
@@ -8,7 +10,7 @@ export function NavbarItem(props) {
     console.log(name, link);
 
     return (
-        <NavLink  to={link}> {name} </NavLink>
+        <NavLink to={link}> {name} </NavLink>
     );
 }
 

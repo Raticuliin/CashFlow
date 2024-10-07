@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 import {NavbarItem} from "./NavbarItem.jsx";
 
+import styles from "../assets/styles/navbar.module.css";
+
 export function Navbar(props) {
 
     const {navbarItems} = props;
@@ -8,7 +10,7 @@ export function Navbar(props) {
     console.log(navbarItems);
 
     return (
-        <nav>
+        <nav className={styles.navbar}>
             {navbarItems.map((navItem, index) => (
                 <NavbarItem key={index} name={navItem.name} link={navItem.link} />
             ))}

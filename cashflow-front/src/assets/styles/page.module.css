@@ -1,0 +1,15 @@
+.main {
+    height: 100%;
+    display: flex;
+    background-color: antiquewhite;
+}
+
+.graphContainer {
+    border: 1px solid black;
+    flex-grow: 2;
+}
+
+.infoContainer {
+    border: 1px solid blue;
+    flex-grow: 1;
+}

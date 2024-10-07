@@ -1,5 +1,8 @@
 export function MovementPage() {
     return (
-        <div>MOVEMENTS</div>
+        <main>
+            <section>section</section>
+            <aside>aside</aside>
+        </main>
     );
 }
