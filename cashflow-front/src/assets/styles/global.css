@@ -1,14 +1,7 @@
-html {
-    display: flex;
-    justify-content: center;
-}
-
-body {
+html, body {
     color: black;
-    width: 80%;
-    height: 100%;
 }
 
 #root {
-    height: 100%;
+    margin: 0 10%;
 }

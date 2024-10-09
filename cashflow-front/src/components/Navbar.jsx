@@ -3,11 +3,7 @@ import {NavbarItem} from "./NavbarItem.jsx";
 
 import styles from "../assets/styles/navbar.module.css";
 
-export function Navbar(props) {
-
-    const {navbarItems} = props;
-
-    console.log(navbarItems);
+export function Navbar({navbarItems}) {
 
     return (
         <nav className={styles.navbar}>
