@@ -27,8 +27,6 @@ export function App() {
             },
         ];
 
-    console.log(navbarItems);
-
     return (
         <>
             <Navbar navbarItems={navbarItems}/>

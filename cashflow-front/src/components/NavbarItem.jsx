@@ -7,8 +7,6 @@ export function NavbarItem(props) {
 
     const {name, link} = props;
 
-    console.log(name, link);
-
     return (
         <NavLink to={link}> {name} </NavLink>
     );
