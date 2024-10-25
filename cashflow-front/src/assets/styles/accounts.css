@@ -1,0 +1,28 @@
+.info_container__title {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.info_container__list {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+}
+
+.info_container__list_item {
+}
+
+.info_container__list_button {
+    padding: .1rem  .5rem;
+    border-radius: .2rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.info_container__list_button:hover {
+    background-color: #393939;
+}

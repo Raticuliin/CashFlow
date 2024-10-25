@@ -1,12 +1,12 @@
-import styles from "../../assets/styles/page.module.css";
+import "../../assets/styles/accounts.css";
 import PropTypes from "prop-types";
 
 export function AccountInfoTitle({total}) {
 
     return (
-        <section className={styles.infoTitle}>
-            <h2> Cuentas </h2>
-            <span>{total.balance}</span>
+        <section className="info_container__title">
+            <h2 className="info_container__title_name"> Cuentas </h2>
+            <span className="info_container__title_balance">{total.balance}</span>
         </section>
     );
 }

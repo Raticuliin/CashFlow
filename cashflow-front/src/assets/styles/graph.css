@@ -1,0 +1,21 @@
+.filter-bar {
+    display: flex;
+    gap: 1rem;
+    position: absolute;
+}
+
+.filter-bar__button {
+    z-index: 1;
+    border-radius: .2rem;
+    padding: .2rem .324rem;
+}
+
+.filter-bar__button--selected {
+    background-color: #393939;
+}
+
+.filter-bar__button:hover {
+    background-color: #393939;
+    cursor: pointer;
+}
+

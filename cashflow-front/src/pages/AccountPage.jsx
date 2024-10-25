@@ -1,13 +1,15 @@
-import styles from '../assets/styles/page.module.css';
+
 import {AccountInfo} from "../components/account/AccountInfo.jsx";
-import Graph from "../components/Graph.jsx";
+import LinearGraph from "../components/graph/LinearGraph.jsx";
+
+import "./../assets/styles/page.css";
 
 
 export function AccountPage() {
 
     return (
-        <main className={styles.main}>
-            <Graph />
+        <main className="main">
+            <LinearGraph />
             <AccountInfo />
         </main>
     );

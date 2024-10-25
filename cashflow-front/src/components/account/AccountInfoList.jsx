@@ -1,14 +1,14 @@
-import styles from "../../assets/styles/page.module.css";
+import"../../assets/styles/accounts.css";
 import PropTypes from "prop-types";
 
 export function AccountInfoList({accounts}) {
     return (
-        <ul className={styles.accountList}>
+        <ul className={"info_container__list"}>
             {accounts.map(account => (
-                <li key={account.id}>
-                    <button className={styles.accountListButton}>
-                        <span>{account.name}</span>
-                        <span>{account.balance}</span>
+                <li key={account.id} className={"info_container__list_item"}>
+                    <button className={"info_container__list_button"}>
+                        <span className={"info_container__list_name"}>{account.name}</span>
+                        <span className={"info_container__list_balance"}>{account.balance}</span>
                     </button>
                 </li>
             ))}

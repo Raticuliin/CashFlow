@@ -1,0 +1,17 @@
+.navbar {
+    /*border: 1px solid blue;*/
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem 0;
+    font-weight: bolder;
+    font-size: 1.25rem;
+}
+
+.navbar__item{
+    /*border: 1px solid blue;*/
+    padding: 0.25rem 0;
+}
+
+.navbar__item--selected {
+    border-bottom: .2rem solid white;
+}

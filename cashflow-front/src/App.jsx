@@ -1,5 +1,5 @@
 import {AccountPage} from "./pages/AccountPage.jsx";
-import {Navbar} from "./components/Navbar.jsx";
+import {Navbar} from "./components/navbar/Navbar.jsx";
 import {Route, Routes} from "react-router-dom";
 import {HomePage} from "./pages/HomePage.jsx";
 import {InvestmentPage} from "./pages/InvestmentPage.jsx";
@@ -10,20 +10,24 @@ export function App() {
     const navbarItems =
         [
             {
+                id: 0,
                 name: "Inicio",
-                link: "/",
+                path: "/",
             },
             {
+                id: 1,
                 name: "Cuentas",
-                link: "/accounts",
+                path: "/accounts",
             },
             {
+                id: 2,
                 name: "Inversiones",
-                link: "/investments",
+                path: "/investments",
             },
             {
+                id: 3,
                 name: "Movimientos",
-                link: "/movements",
+                path: "/movements",
             },
         ];
 

@@ -1,0 +1,20 @@
+.main {
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+}
+
+.graph_container {
+    margin: .5rem;
+    /*max-height: calc(100vh - (2 * 1rem + 1.25rem + 2 * .25rem + 1rem));*/
+    /*TODO: REVISAR EL MALDITO HEIGHT ESTE, QUE SI SE PONE AL 100 CRECE INDEFINIDAMENTE*/
+    height: 50%;
+    flex-grow: 1;
+}
+
+.info_container {
+    margin: .5rem;
+    flex-grow: 1;
+    min-width: 20vw;
+    height: 50%;
+}

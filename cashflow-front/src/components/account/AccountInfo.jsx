@@ -1,4 +1,4 @@
-import styles from "../../assets/styles/page.module.css";
+import"../../assets/styles/page.css";
 import {AccountInfoTitle} from "./AccountInfoTitle.jsx";
 import {AccountInfoList} from "./AccountInfoList.jsx";
 
@@ -11,7 +11,7 @@ const accounts = accountsMock.accounts;
 
 export function AccountInfo() {
     return (
-        <aside className={styles.infoContainer}>
+        <aside className="info_container">
             <AccountInfoTitle total={total} />
             <AccountInfoList accounts={accounts} />
         </aside>

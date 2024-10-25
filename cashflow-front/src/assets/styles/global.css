@@ -1,7 +1,13 @@
 html, body {
-    color: black;
+    font-family: "Roboto", serif;
+    background-color: #131313;
+    color: white;
+    height: 100%;
 }
 
 #root {
+    display: flex;
+    flex-direction: column;
     margin: 0 10%;
+    height: 100%;
 }
